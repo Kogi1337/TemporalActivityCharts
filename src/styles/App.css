@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.headbarTitle {
+  padding: 10px 20px 10px 24px;
+  background: #113453;
+}
+
+.headbarTitle h1 {
+  color: #ffff;
+  font-size: larger;
+}
+
+.buttons {
+  float: right;
+  margin-left: 5px;
+}
+
+.mainContent {
+  margin: 20px;
+}
