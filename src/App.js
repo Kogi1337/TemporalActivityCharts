@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css';
+import React from 'react';
+import Sidebar from './Layout/Sidebar';
+import { Layout, Button } from 'antd';
+import {
+  DownloadOutlined,
+  UploadOutlined,
+  ExportOutlined,
+} from '@ant-design/icons';
+const { Content } = Layout;
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Layout>
+        <Sidebar />
+        <Content>
+          <div className="mainContent">
+            <Button className="buttons" shape="round" icon={<ExportOutlined />}>
+              Export to temporal constraint network
+            </Button>
+
+            <Button className="buttons" shape="round" icon={<UploadOutlined />}>
+              Import from file
+            </Button>
+
+            <Button
+              className="buttons"
+              shape="round"
+              icon={<DownloadOutlined />}
+            >
+              Download as file
+            </Button>
+          </div>
+        </Content>
+      </Layout>
+    );
+  }
 }
 
 export default App;
