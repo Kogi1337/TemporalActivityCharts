@@ -1,37 +1,41 @@
 import './styles/App.css';
 import React from 'react';
 import Sidebar from './Layout/Sidebar';
-import { Layout, Button } from 'antd';
+import { Layout, Button, Dropdown, Menu } from 'antd';
 import {
   DownloadOutlined,
   UploadOutlined,
   ExportOutlined,
+  SettingOutlined,
+  DownOutlined,
 } from '@ant-design/icons';
 const { Content } = Layout;
 
 class App extends React.Component {
   render() {
+    let menu = (
+      <Menu style={{ borderRadius: 20 }}>
+        <Menu.Item>
+          <ExportOutlined /> Export to temporal constraint network
+        </Menu.Item>
+        <Menu.Item>
+          <UploadOutlined /> Import from file
+        </Menu.Item>
+        <Menu.Item>
+          <DownloadOutlined /> Download as file
+        </Menu.Item>
+      </Menu>
+    );
+
     return (
       <Layout>
         <Sidebar />
         <Content>
-          <div className="mainContent">
-            <Button className="buttons" shape="round" icon={<ExportOutlined />}>
-              Export to temporal constraint network
+          <Dropdown overlay={menu} className="optionsDropdown">
+            <Button shape="round" icon={<SettingOutlined />}>
+              Options <DownOutlined />
             </Button>
-
-            <Button className="buttons" shape="round" icon={<UploadOutlined />}>
-              Import from file
-            </Button>
-
-            <Button
-              className="buttons"
-              shape="round"
-              icon={<DownloadOutlined />}
-            >
-              Download as file
-            </Button>
-          </div>
+          </Dropdown>
         </Content>
       </Layout>
     );

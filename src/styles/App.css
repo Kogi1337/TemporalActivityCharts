@@ -12,9 +12,9 @@ body {
   font-size: larger;
 }
 
-.buttons {
+.optionsDropdown {
   float: right;
-  margin-left: 5px;
+  margin: 10px;
 }
 
 .mainContent {
