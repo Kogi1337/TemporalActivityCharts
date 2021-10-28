@@ -15,13 +15,13 @@ class App extends React.Component {
   render() {
     let menu = (
       <Menu style={{ borderRadius: 20 }}>
-        <Menu.Item>
+        <Menu.Item key="1">
           <ExportOutlined /> Export to temporal constraint network
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="2">
           <UploadOutlined /> Import from file
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="3">
           <DownloadOutlined /> Download as file
         </Menu.Item>
       </Menu>
