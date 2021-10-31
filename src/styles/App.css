@@ -31,7 +31,6 @@ body {
 .componentsGrid {
   background-color: #fff;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid black;
-  margin-left: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  margin-left: 24px;
 }
