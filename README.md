@@ -1,4 +1,4 @@
-# Project description
+# Graphical Design Interface for modeling Temporal Activity Charts
 
 Project for a bachelor thesis at the university of klagenfurt.
 
