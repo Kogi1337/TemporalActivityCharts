@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import Activity from '../images/activity.png';
-import Action from '../images/action.png';
 import controlFlow from '../images/controlFlow.png';
 import decisionNode from '../images/decisionNode.png';
 import finalNode from '../images/finalNode.png';
@@ -9,8 +8,6 @@ import forkNode from '../images/forkNode.png';
 import initialNode from '../images/initialNode.png';
 import joinNode from '../images/joinNode.png';
 import mergeNode from '../images/mergeNode.png';
-import objectFlow from '../images/objectFlow.png';
-import swimlane from '../images/swimlane.png';
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -39,18 +36,9 @@ export default class Sidebar extends React.Component {
                   width={75}
                 />
 
-                <img src={Action} alt="action_image" height={75} width={75} />
-
                 <img
                   src={controlFlow}
                   alt="controlFlow_image"
-                  height={75}
-                  width={75}
-                />
-
-                <img
-                  src={objectFlow}
-                  alt="objectFlow_image"
                   height={75}
                   width={75}
                 />
@@ -93,13 +81,6 @@ export default class Sidebar extends React.Component {
                 <img
                   src={joinNode}
                   alt="joinNode_image"
-                  height={75}
-                  width={75}
-                />
-
-                <img
-                  src={swimlane}
-                  alt="swimlane_image"
                   height={75}
                   width={75}
                 />
