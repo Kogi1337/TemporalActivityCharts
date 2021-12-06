@@ -8,7 +8,6 @@ export default memo(({ data, isConnectable }) => {
       <div className="activityNodeLeft">
         <Handle
           id="constraintTopLeft"
-          type="source"
           position="top"
           style={{ background: '#000', left: '12.5%' }}
           onConnect={(params) => console.log('handle onConnect', params)}
@@ -26,7 +25,6 @@ export default memo(({ data, isConnectable }) => {
 
         <Handle
           id="constraintBottomLeft"
-          type="source"
           position="bottom"
           style={{ background: '#000', left: '12.5%' }}
           onConnect={(params) => console.log('handle onConnect', params)}
@@ -37,7 +35,6 @@ export default memo(({ data, isConnectable }) => {
       <div className="activityNodeMiddle">
         <Handle
           id="eventTopLeft"
-          type="source"
           position="top"
           style={{ background: '#000', left: '35%' }}
           onConnect={(params) => console.log('handle onConnect', params)}
@@ -46,7 +43,6 @@ export default memo(({ data, isConnectable }) => {
 
         <Handle
           id="eventTopRight"
-          type="target"
           position="top"
           style={{ background: '#000', left: '65%' }}
           onConnect={(params) => console.log('handle onConnect', params)}
@@ -73,7 +69,6 @@ export default memo(({ data, isConnectable }) => {
 
         <Handle
           id="eventBottomLeft"
-          type="source"
           position="bottom"
           style={{ background: '#000', left: '35%' }}
           onConnect={(params) => console.log('handle onConnect', params)}
@@ -82,7 +77,6 @@ export default memo(({ data, isConnectable }) => {
 
         <Handle
           id="eventBottomRight"
-          type="target"
           position="bottom"
           style={{ background: '#000', left: '65%' }}
           onConnect={(params) => console.log('handle onConnect', params)}
@@ -93,7 +87,6 @@ export default memo(({ data, isConnectable }) => {
       <div className="activityNodeRight">
         <Handle
           id="constraintTopRight"
-          type="target"
           position="top"
           style={{ background: '#000', left: '87.5%' }}
           onConnect={(params) => console.log('handle onConnect', params)}
@@ -111,7 +104,6 @@ export default memo(({ data, isConnectable }) => {
 
         <Handle
           id="constraintBottomRight"
-          type="target"
           position="bottom"
           style={{ background: '#000', left: '87.5%' }}
           onConnect={(params) => console.log('handle onConnect', params)}

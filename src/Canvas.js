@@ -3,6 +3,7 @@ import ReactFlow, {
   Background,
   removeElements,
   addEdge,
+  ConnectionMode,
 } from 'react-flow-renderer';
 import InitialNode from './NodeTypes/InitialNode';
 import ActivityNode from './NodeTypes/ActivityNode';
@@ -13,6 +14,7 @@ import TimeConstraintEdgeBottom from './EdgeTypes/TimeConstraintEdgeBottom';
 import EventNode from './NodeTypes/EventNode';
 import EventEdgeLeft from './EdgeTypes/EventEdgeLeft';
 import EventEdgeRight from './EdgeTypes/EventEdgeRight';
+import ControlEdge from './EdgeTypes/ControlEdge';
 
 const nodeTypes = {
   initialNode: InitialNode,
@@ -27,6 +29,7 @@ const edgeTypes = {
   timeConstraintEdgeBottom: TimeConstraintEdgeBottom,
   eventEdgeLeft: EventEdgeLeft,
   eventEdgeRight: EventEdgeRight,
+  controlEdge: ControlEdge,
 };
 
 const initialElements = [
@@ -86,10 +89,8 @@ const Canvas = () => {
     ) {
       params.type = 'eventEdgeRight';
     } else {
-      params.type = 'smoothstep';
+      params.type = 'controlEdge';
     }
-
-    params.arrowHeadType = 'arrow';
 
     setElements((els) => addEdge(params, els));
   };
@@ -102,6 +103,7 @@ const Canvas = () => {
       deleteKeyCode={46} /* 'delete'-key */
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
+      connectionMode={ConnectionMode.Loose}
     >
       <Background variant="dots" />
     </ReactFlow>

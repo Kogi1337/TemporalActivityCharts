@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { Input } from 'antd';
 
 import { Handle } from 'react-flow-renderer';
 
@@ -14,7 +15,11 @@ export default memo(({ data, isConnectable }) => {
         isConnectable={isConnectable}
       />
 
-      <div className="eventNodeLabel">{data.label}</div>
+      <Input
+        className="eventNodeLabel"
+        placeholder="Parameter"
+        defaultValue={data?.label}
+      />
 
       <Handle
         id="eventRight"
