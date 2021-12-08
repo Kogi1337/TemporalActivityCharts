@@ -3,12 +3,11 @@ import { Input } from 'antd';
 
 import { Handle } from 'react-flow-renderer';
 
-export default memo(({ data, isConnectable }) => {
+export default memo(({ id, data, isConnectable }) => {
   return (
     <div className="eventNode">
       <Handle
-        id="eventLeft"
-        type="target"
+        id={'eventLeft' + id}
         position="left"
         style={{ background: '#000' }}
         onConnect={(params) => console.log('handle onConnect', params)}
@@ -22,8 +21,7 @@ export default memo(({ data, isConnectable }) => {
       />
 
       <Handle
-        id="eventRight"
-        type="source"
+        id={'eventRight' + id}
         position="right"
         style={{ background: '#000' }}
         onConnect={(params) => console.log('handle onConnect', params)}

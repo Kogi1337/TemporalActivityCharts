@@ -50,8 +50,8 @@ body {
 }
 
 .eventNode {
-  height: 80px;
-  width: 80px;
+  height: 120px;
+  width: 120px;
   border-radius: 50%;
   outline: 1.5px solid #000;
   display: inline-block;
@@ -59,8 +59,9 @@ body {
 }
 
 .eventNode .eventNodeLabel {
-  margin-left: 20px;
-  margin-top: 25px;
+  width: 80%;
+  margin-left: 15px;
+  margin-top: 37%;
 }
 
 .finalNode {
@@ -137,30 +138,12 @@ body {
   stroke: #000;
 }
 
-/* .decisionNode {
-  background: #fff;
-  height: 60px;
-  text-align: center;
-  width: 60px;
-  border: 1.5px solid #000;
-} */
-
 .decisionNode {
-  width: 0;
-  height: 0;
-  border: 50px solid transparent;
-  border-bottom-color: red;
-  position: relative;
-  top: -50px;
+  height: 110px;
+  width: 110px;
 }
 
-.decisionNode:after {
-  content: '';
-  position: absolute;
-  left: -50px;
-  top: 50px;
-  width: 0;
-  height: 0;
-  border: 50px solid transparent;
-  border-top-color: red;
+.decisionNode .decisionNodePath {
+  fill: #fff;
+  stroke: #000;
 }

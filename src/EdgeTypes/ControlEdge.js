@@ -7,8 +7,6 @@ export default function ControlEdge({
   targetX,
   targetY,
   style = {},
-  arrowHeadType,
-  markerEndId,
 }) {
   const path = 'M' + sourceX + ' ' + sourceY + 'L' + targetX + ' ' + targetY;
 

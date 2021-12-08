@@ -1,21 +1,16 @@
 import React from 'react';
-import { getEdgeCenter, getMarkerEnd } from 'react-flow-renderer';
 import { Input } from 'antd';
 
 const foreignObjectSize = 100;
 
-export default function TimeConstraintEdge({
+export default function TimeConstraintEdgeTop({
   id,
   sourceX,
   sourceY,
   targetX,
   targetY,
   style = {},
-  arrowHeadType,
-  markerEndId,
 }) {
-  const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
-
   const path =
     'M' +
     sourceX +
@@ -32,11 +27,30 @@ export default function TimeConstraintEdge({
 
   return (
     <>
+      <marker
+        id="triangle"
+        markerWidth="30"
+        markerHeight="30"
+        viewBox="-20 -20 40 40"
+        orient="auto"
+        refX="0"
+        refY="0"
+      >
+        <polyline
+          stroke="#000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
+          fill="none"
+          points="-15,-13 0,0 -15,13"
+        />
+      </marker>
+
       <path
         id={id}
         className="timeConstraintEdge"
         d={path}
-        markerEnd={markerEnd}
+        markerEnd="url(#triangle)"
         style={style}
       />
       <foreignObject

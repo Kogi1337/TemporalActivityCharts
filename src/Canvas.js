@@ -3,7 +3,7 @@ import ReactFlow, {
   Background,
   removeElements,
   addEdge,
-  ConnectionMode,
+  ReactFlowProvider,
 } from 'react-flow-renderer';
 import InitialNode from './NodeTypes/InitialNode';
 import ActivityNode from './NodeTypes/ActivityNode';
@@ -61,6 +61,11 @@ const initialElements = [
     type: 'finalNode',
     position: { x: 250, y: 350 },
   },
+  {
+    id: '6',
+    type: 'decisionNode',
+    position: { x: 250, y: 350 },
+  },
 ];
 
 const Canvas = () => {
@@ -68,45 +73,67 @@ const Canvas = () => {
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
   const onConnect = (params) => {
+    let foundType = false;
+
     if (
       params.sourceHandle?.toString().includes('constraintTop') &&
       params.targetHandle?.toString().includes('constraintTop')
     ) {
       params.type = 'timeConstraintEdgeTop';
+      foundType = true;
     } else if (
       params.sourceHandle?.toString().includes('constraintBottom') &&
       params.targetHandle?.toString().includes('constraintBottom')
     ) {
       params.type = 'timeConstraintEdgeBottom';
+      foundType = true;
     } else if (
       params.sourceHandle?.toString().includes('event') &&
       params.targetHandle?.toString().includes('eventLeft')
     ) {
       params.type = 'eventEdgeLeft';
+      foundType = true;
     } else if (
       params.sourceHandle?.toString().includes('eventRight') &&
       params.targetHandle?.toString().includes('event')
     ) {
       params.type = 'eventEdgeRight';
-    } else {
+      foundType = true;
+    } else if (
+      (params.sourceHandle?.toString().includes('sourceRight') &&
+        params.targetHandle?.toString().includes('targetLeft')) ||
+      (params.sourceHandle?.toString().includes('initialHandle') &&
+        params.targetHandle?.toString().includes('targetLeft')) ||
+      (params.sourceHandle?.toString().includes('sourceRight') &&
+        params.targetHandle?.toString().includes('finalHandle'))
+    ) {
       params.type = 'controlEdge';
+      foundType = true;
+    } else if (
+      params.sourceHandle?.toString().includes('decisionNodeLeft') &&
+      params.targetHandle?.toString().includes('decisionNodeRight')
+    ) {
+      params.type = 'step';
+      foundType = true;
     }
 
-    setElements((els) => addEdge(params, els));
+    if (foundType) setElements((els) => addEdge(params, els));
   };
 
   return (
-    <ReactFlow
-      elements={elements}
-      onElementsRemove={onElementsRemove}
-      onConnect={onConnect}
-      deleteKeyCode={46} /* 'delete'-key */
-      nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
-      connectionMode={ConnectionMode.Loose}
-    >
-      <Background variant="dots" />
-    </ReactFlow>
+    <ReactFlowProvider>
+      <ReactFlow
+        elements={elements}
+        onElementsRemove={onElementsRemove}
+        onConnect={onConnect}
+        deleteKeyCode={46} /* 'delete'-key */
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        connectionMode="loose"
+      >
+        <Background variant="dots" />
+      </ReactFlow>
+    </ReactFlowProvider>
   );
 };
 

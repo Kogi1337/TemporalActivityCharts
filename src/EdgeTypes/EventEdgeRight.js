@@ -3,15 +3,13 @@ import { Input } from 'antd';
 
 const foreignObjectSize = 100;
 
-export default function TimeConstraintEdge({
+export default function EventEdgeRight({
   id,
   sourceX,
   sourceY,
   targetX,
   targetY,
   style = {},
-  arrowHeadType,
-  markerEndId,
 }) {
   const path =
     'M' +
