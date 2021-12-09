@@ -1,42 +1,35 @@
 import React, { memo } from 'react';
-import { Input } from 'antd';
 import { Handle } from 'react-flow-renderer';
 
 export default memo(({ id, data, isConnectable }) => {
-  const path = 'M 55 0 L 110 55 L 55 110 L 0 55 L 55 0';
+  const path = 'M 0 0 L 20 0 L 150 150 L 0 150 L 0 0';
 
   return (
-    <div className="decisionNode">
-      <svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
-        <path d={path} className="decisionNodePath" />
+    <div className="forkNode">
+      <svg height="150" width="20" xmlns="http://www.w3.org/2000/svg">
+        <path d={path} className="forkNodePath" />
       </svg>
 
       <Handle
-        id={'decisionNodeLeft' + id}
+        id={'forkNodeLeft' + id}
         position="left"
         style={{ background: '#000' }}
         onConnect={(params) => console.log('handle onConnect', params)}
         isConnectable={isConnectable}
       />
 
-      <Input
-        className="decisionNodeInput"
-        placeholder="Decision"
-        defaultValue={data?.label}
-      />
-
       <Handle
-        id={'decisionNodeTop' + id}
-        position="top"
-        style={{ background: '#000' }}
+        id={'forkNodeRight1' + id}
+        position="right"
+        style={{ background: '#000', top: '25%' }}
         onConnect={(params) => console.log('handle onConnect', params)}
         isConnectable={isConnectable}
       />
 
       <Handle
-        id={'decisionNodeBottom' + id}
-        position="bottom"
-        style={{ background: '#000' }}
+        id={'forkNodeRight2' + id}
+        position="right"
+        style={{ background: '#000', top: '75%' }}
         onConnect={(params) => console.log('handle onConnect', params)}
         isConnectable={isConnectable}
       />

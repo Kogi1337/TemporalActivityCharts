@@ -147,3 +147,20 @@ body {
   fill: #fff;
   stroke: #000;
 }
+
+.decisionNode .decisionNodeInput {
+  width: 60px;
+  position: absolute;
+  left: 25px;
+  top: 38px;
+}
+
+.forkNode {
+  height: 150px;
+  width: 20px;
+}
+
+.forkNode .forkNodePath {
+  fill: #000;
+  stroke: #000;
+}

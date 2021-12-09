@@ -5,6 +5,7 @@ import ReactFlow, {
   addEdge,
   ReactFlowProvider,
 } from 'react-flow-renderer';
+import { notification } from 'antd';
 import InitialNode from './NodeTypes/InitialNode';
 import ActivityNode from './NodeTypes/ActivityNode';
 import FinalNode from './NodeTypes/FinalNode';
@@ -15,6 +16,9 @@ import EventNode from './NodeTypes/EventNode';
 import EventEdgeLeft from './EdgeTypes/EventEdgeLeft';
 import EventEdgeRight from './EdgeTypes/EventEdgeRight';
 import ControlEdge from './EdgeTypes/ControlEdge';
+import MergeNode from './NodeTypes/MergeNode';
+import ForkNode from './NodeTypes/ForkNode';
+import JoinNode from './NodeTypes/JoinNode';
 
 const nodeTypes = {
   initialNode: InitialNode,
@@ -22,6 +26,9 @@ const nodeTypes = {
   decisionNode: DecisionNode,
   activityNode: ActivityNode,
   eventNode: EventNode,
+  mergeNode: MergeNode,
+  forkNode: ForkNode,
+  joinNode: JoinNode,
 };
 
 const edgeTypes = {
@@ -66,6 +73,27 @@ const initialElements = [
     type: 'decisionNode',
     position: { x: 250, y: 350 },
   },
+  {
+    id: '7',
+    type: 'activityNode',
+    data: { label: 'Action 3' },
+    position: { x: 300, y: 300 },
+  },
+  {
+    id: '8',
+    type: 'mergeNode',
+    position: { x: 250, y: 350 },
+  },
+  {
+    id: '9',
+    type: 'forkNode',
+    position: { x: 250, y: 350 },
+  },
+  {
+    id: '10',
+    type: 'joinNode',
+    position: { x: 250, y: 350 },
+  },
 ];
 
 const Canvas = () => {
@@ -105,19 +133,39 @@ const Canvas = () => {
       (params.sourceHandle?.toString().includes('initialHandle') &&
         params.targetHandle?.toString().includes('targetLeft')) ||
       (params.sourceHandle?.toString().includes('sourceRight') &&
-        params.targetHandle?.toString().includes('finalHandle'))
+        params.targetHandle?.toString().includes('finalHandle')) ||
+      (params.sourceHandle?.toString().includes('sourceRight') &&
+        params.targetHandle?.toString().includes('decisionNodeLeft')) ||
+      ((params.sourceHandle?.toString().includes('decisionNodeTop') ||
+        params.sourceHandle?.toString().includes('decisionNodeBottom')) &&
+        params.targetHandle?.toString().includes('targetLeft')) ||
+      (params.sourceHandle?.toString().includes('sourceRight') &&
+        (params.targetHandle?.toString().includes('mergeNodeTop') ||
+          params.targetHandle?.toString().includes('mergeNodeBottom'))) ||
+      (params.sourceHandle?.toString().includes('mergeNodeRight') &&
+        params.targetHandle?.toString().includes('finalHandle')) ||
+      (params.sourceHandle?.toString().includes('sourceRight') &&
+        params.targetHandle?.toString().includes('forkNodeLeft')) ||
+      (params.sourceHandle?.toString().includes('forkNodeRight') &&
+        params.targetHandle?.toString().includes('targetLeft')) ||
+      (params.sourceHandle?.toString().includes('sourceRight') &&
+        params.targetHandle?.toString().includes('joinNodeLeft')) ||
+      (params.sourceHandle?.toString().includes('joinNodeRight') &&
+        params.targetHandle?.toString().includes('targetLeft'))
     ) {
       params.type = 'controlEdge';
       foundType = true;
-    } else if (
-      params.sourceHandle?.toString().includes('decisionNodeLeft') &&
-      params.targetHandle?.toString().includes('decisionNodeRight')
-    ) {
-      params.type = 'step';
-      foundType = true;
     }
 
-    if (foundType) setElements((els) => addEdge(params, els));
+    if (foundType) {
+      setElements((els) => addEdge(params, els));
+    } else {
+      notification.error({
+        message: 'Could not create edge',
+        description:
+          'The edge could not be created because the source and the target are not valid.',
+      });
+    }
   };
 
   return (

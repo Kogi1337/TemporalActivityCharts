@@ -12,8 +12,8 @@ export default memo(({ id, data, isConnectable }) => {
       </svg>
 
       <Handle
-        id={'decisionNodeLeft' + id}
-        position="left"
+        id={'mergeNodeRight' + id}
+        position="right"
         style={{ background: '#000' }}
         onConnect={(params) => console.log('handle onConnect', params)}
         isConnectable={isConnectable}
@@ -21,12 +21,12 @@ export default memo(({ id, data, isConnectable }) => {
 
       <Input
         className="decisionNodeInput"
-        placeholder="Decision"
+        placeholder="Merge"
         defaultValue={data?.label}
       />
 
       <Handle
-        id={'decisionNodeTop' + id}
+        id={'mergeNodeTop' + id}
         position="top"
         style={{ background: '#000' }}
         onConnect={(params) => console.log('handle onConnect', params)}
@@ -34,7 +34,7 @@ export default memo(({ id, data, isConnectable }) => {
       />
 
       <Handle
-        id={'decisionNodeBottom' + id}
+        id={'mergeNodeBottom' + id}
         position="bottom"
         style={{ background: '#000' }}
         onConnect={(params) => console.log('handle onConnect', params)}
