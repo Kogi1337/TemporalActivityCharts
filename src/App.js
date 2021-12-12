@@ -2,14 +2,7 @@ import './styles/App.css';
 import React from 'react';
 import Sidebar from './Layout/Sidebar';
 import Headbar from './Layout/Headbar';
-import { Layout, Button, Dropdown, Menu } from 'antd';
-import {
-  DownloadOutlined,
-  UploadOutlined,
-  ExportOutlined,
-  SettingOutlined,
-  DownOutlined,
-} from '@ant-design/icons';
+import { Layout } from 'antd';
 import Canvas from './Canvas';
 const { Content } = Layout;
 
@@ -18,11 +11,13 @@ class App extends React.Component {
     return (
       <>
         <Layout>
-          <Sidebar />
-          {/*<Headbar />*/}
-          <Content>
-            <Canvas />
-          </Content>
+          <Headbar />
+          <Layout>
+            <Sidebar />
+            <Content>
+              <Canvas />
+            </Content>
+          </Layout>
         </Layout>
       </>
     );

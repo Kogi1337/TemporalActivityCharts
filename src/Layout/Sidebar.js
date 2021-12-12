@@ -16,10 +16,6 @@ export default class Sidebar extends React.Component {
   render() {
     return (
       <Sider width={270}>
-        <div className="headbarTitle">
-          <h1>Temporal activity charts</h1>
-        </div>
-
         <div className="sidebar">
           <Menu
             mode="inline"

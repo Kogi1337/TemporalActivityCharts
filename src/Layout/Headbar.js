@@ -26,12 +26,17 @@ export default class Headbar extends React.Component {
     );
 
     return (
-      <Header className="header">
-        <Dropdown overlay={menu} className="optionsDropdown">
-          <Button icon={<SettingOutlined />}>
-            Options <DownOutlined />
-          </Button>
-        </Dropdown>
+      <Header class="myHeader">
+        <div className="headbarTitle">
+          <h1>Temporal activity charts</h1>
+        </div>
+        <div className="optionsDropdown">
+          <Dropdown overlay={menu}>
+            <Button icon={<SettingOutlined />}>
+              Options <DownOutlined />
+            </Button>
+          </Dropdown>
+        </div>
       </Header>
     );
   }
