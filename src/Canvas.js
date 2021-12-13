@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactFlow, {
   Background,
   removeElements,
   addEdge,
   ReactFlowProvider,
+  Controls,
 } from 'react-flow-renderer';
 import { notification } from 'antd';
 import InitialNode from './NodeTypes/InitialNode';
@@ -19,6 +20,8 @@ import ControlEdge from './EdgeTypes/ControlEdge';
 import MergeNode from './NodeTypes/MergeNode';
 import ForkNode from './NodeTypes/ForkNode';
 import JoinNode from './NodeTypes/JoinNode';
+
+import './styles/dnd.css';
 
 const nodeTypes = {
   initialNode: InitialNode,
@@ -39,64 +42,12 @@ const edgeTypes = {
   controlEdge: ControlEdge,
 };
 
-const initialElements = [
-  {
-    id: '1',
-    type: 'initialNode',
-    position: { x: 250, y: 25 },
-  },
-  {
-    id: '2',
-    type: 'activityNode',
-    data: { label: 'Action 1', duration: '[5, 25]', continuousness: 'NC' },
-    position: { x: 100, y: 125 },
-  },
-  {
-    id: '3',
-    type: 'eventNode',
-    data: { label: 'Parameter 1' },
-    position: { x: 100, y: 180 },
-  },
-  {
-    id: '4',
-    type: 'activityNode',
-    data: { label: 'Action 2' },
-    position: { x: 250, y: 250 },
-  },
-  {
-    id: '5',
-    type: 'finalNode',
-    position: { x: 250, y: 350 },
-  },
-  {
-    id: '6',
-    type: 'decisionNode',
-    position: { x: 250, y: 350 },
-  },
-  {
-    id: '7',
-    type: 'activityNode',
-    data: { label: 'Action 3' },
-    position: { x: 300, y: 300 },
-  },
-  {
-    id: '8',
-    type: 'mergeNode',
-    position: { x: 250, y: 350 },
-  },
-  {
-    id: '9',
-    type: 'forkNode',
-    position: { x: 250, y: 350 },
-  },
-  {
-    id: '10',
-    type: 'joinNode',
-    position: { x: 250, y: 350 },
-  },
-];
+const initialElements = [];
+let id = 0;
 
 const Canvas = () => {
+  const reactFlowWrapper = useRef(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [elements, setElements] = useState(initialElements);
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
@@ -168,20 +119,60 @@ const Canvas = () => {
     }
   };
 
+  const onLoad = (_reactFlowInstance) =>
+    setReactFlowInstance(_reactFlowInstance);
+
+  const getId = () => `dndnode_${id++}`;
+
+  const onDragOver = (event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  };
+
+  const onDrop = (event) => {
+    event.preventDefault();
+
+    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+    const type = event.dataTransfer.getData('application/reactflow');
+    const position = reactFlowInstance.project({
+      x: event.clientX - reactFlowBounds.left,
+      y: event.clientY - reactFlowBounds.top,
+    });
+
+    console.log(id);
+    console.log(type);
+    console.log(position);
+    const newNode = {
+      id: getId(),
+      type,
+      position,
+    };
+
+    setElements((es) => es.concat(newNode));
+  };
+
   return (
-    <ReactFlowProvider>
-      <ReactFlow
-        elements={elements}
-        onElementsRemove={onElementsRemove}
-        onConnect={onConnect}
-        deleteKeyCode={46} /* 'delete'-key */
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        connectionMode="loose"
-      >
-        <Background variant="dots" />
-      </ReactFlow>
-    </ReactFlowProvider>
+    <div className="dndflow">
+      <ReactFlowProvider>
+        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+          <ReactFlow
+            elements={elements}
+            onElementsRemove={onElementsRemove}
+            onConnect={onConnect}
+            deleteKeyCode={46} /* 'delete'-key */
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            connectionMode="loose"
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            onLoad={onLoad}
+          >
+            <Background variant="dots" />
+            <Controls />
+          </ReactFlow>
+        </div>
+      </ReactFlowProvider>
+    </div>
   );
 };
 

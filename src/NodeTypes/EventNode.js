@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { Input } from 'antd';
-
 import { Handle } from 'react-flow-renderer';
 
 export default memo(({ id, data, isConnectable }) => {

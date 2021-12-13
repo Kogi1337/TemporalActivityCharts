@@ -34,14 +34,13 @@ body {
 }
 
 .sidebar {
-  height: 100vh;
   background-color: #ffff;
 }
 
 .componentsGrid {
   background-color: #fff;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   margin-left: 24px;
 }
 
@@ -167,4 +166,10 @@ body {
 .forkNode .forkNodePath {
   fill: #000;
   stroke: #000;
+}
+
+.ant-menu-submenu > .ant-menu {
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
