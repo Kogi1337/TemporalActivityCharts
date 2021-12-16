@@ -19,7 +19,7 @@ export default function TimeConstraintEdgeBottom({
     'Q' +
     (sourceX + targetX) / 2 +
     ' ' +
-    (sourceY > targetY ? sourceY + 500 : targetY + 500) +
+    (sourceY > targetY ? sourceY + 200 : targetY + 200) +
     ', ' +
     targetX +
     ' ' +
@@ -57,7 +57,7 @@ export default function TimeConstraintEdgeBottom({
         width={foreignObjectSize}
         height={foreignObjectSize}
         x={(sourceX + targetX) / 2 - 45}
-        y={sourceY > targetY ? sourceY + 255 : targetY + 255}
+        y={sourceY > targetY ? sourceY + 110 : targetY + 110}
         className="edgebutton-foreignobject"
         requiredExtensions="http://www.w3.org/1999/xhtml"
       >

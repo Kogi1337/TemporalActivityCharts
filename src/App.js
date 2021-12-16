@@ -1,5 +1,6 @@
 import './styles/App.css';
 import React from 'react';
+import ReactFlow, { ReactFlowProvider } from 'react-flow-renderer';
 import Sidebar from './Layout/Sidebar';
 import Headbar from './Layout/Headbar';
 import { Layout } from 'antd';
@@ -15,7 +16,9 @@ class App extends React.Component {
           <Layout>
             <Sidebar />
             <Content>
-              <Canvas />
+              <ReactFlowProvider>
+                <Canvas />
+              </ReactFlowProvider>
             </Content>
           </Layout>
         </Layout>

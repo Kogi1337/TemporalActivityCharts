@@ -3,10 +3,18 @@ import ReactFlow, {
   Background,
   removeElements,
   addEdge,
-  ReactFlowProvider,
   Controls,
+  useZoomPanHelper,
 } from 'react-flow-renderer';
-import { notification } from 'antd';
+import {
+  DownloadOutlined,
+  UploadOutlined,
+  ExportOutlined,
+  SettingOutlined,
+  DownOutlined,
+} from '@ant-design/icons';
+import { v4 as uuidv4 } from 'uuid';
+import { Dropdown, Menu, Upload, Button, message } from 'antd';
 import InitialNode from './NodeTypes/InitialNode';
 import ActivityNode from './NodeTypes/ActivityNode';
 import FinalNode from './NodeTypes/FinalNode';
@@ -20,7 +28,6 @@ import ControlEdge from './EdgeTypes/ControlEdge';
 import MergeNode from './NodeTypes/MergeNode';
 import ForkNode from './NodeTypes/ForkNode';
 import JoinNode from './NodeTypes/JoinNode';
-
 import './styles/dnd.css';
 
 const nodeTypes = {
@@ -42,87 +49,102 @@ const edgeTypes = {
   controlEdge: ControlEdge,
 };
 
-const initialElements = [];
-let id = 0;
-
 const Canvas = () => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [elements, setElements] = useState(initialElements);
+  const [elements, setElements] = useState([]);
+  const { transform } = useZoomPanHelper();
+
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  };
+
+  const beforeUpload = (file) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const flow = JSON.parse(e.target.result);
+
+      if (flow) {
+        const [x = 0, y = 0] = flow.position;
+        setElements(flow.elements || []);
+        transform({ x, y, zoom: flow.zoom || 0 });
+      }
+    };
+    reader.readAsText(file);
+    message.success(`${file?.name} file uploaded successfully`);
+
+    // Prevent upload
+    return false;
+  };
+
+  const downloadAsFile = async () => {
+    const flow = reactFlowInstance.toObject();
+    const fileName = 'elements';
+    const json = JSON.stringify(flow);
+    const blob = new Blob([json], { type: 'application/json' });
+    const href = await URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = fileName + '.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">
+        <ExportOutlined /> Export to temporal constraint network
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Upload
+          accept=".json"
+          customRequest={dummyRequest}
+          showUploadList="false"
+          beforeUpload={beforeUpload}
+        >
+          <UploadOutlined /> Import from file
+        </Upload>
+      </Menu.Item>
+      <Menu.Item key="3" onClick={downloadAsFile}>
+        <DownloadOutlined /> Download as file
+      </Menu.Item>
+    </Menu>
+  );
+
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
-  const onConnect = (params) => {
-    let foundType = false;
 
+  const onConnect = (params) => {
     if (
       params.sourceHandle?.toString().includes('constraintTop') &&
       params.targetHandle?.toString().includes('constraintTop')
     ) {
       params.type = 'timeConstraintEdgeTop';
-      foundType = true;
     } else if (
       params.sourceHandle?.toString().includes('constraintBottom') &&
       params.targetHandle?.toString().includes('constraintBottom')
     ) {
       params.type = 'timeConstraintEdgeBottom';
-      foundType = true;
     } else if (
       params.sourceHandle?.toString().includes('event') &&
       params.targetHandle?.toString().includes('eventLeft')
     ) {
       params.type = 'eventEdgeLeft';
-      foundType = true;
     } else if (
       params.sourceHandle?.toString().includes('eventRight') &&
       params.targetHandle?.toString().includes('event')
     ) {
       params.type = 'eventEdgeRight';
-      foundType = true;
-    } else if (
-      (params.sourceHandle?.toString().includes('sourceRight') &&
-        params.targetHandle?.toString().includes('targetLeft')) ||
-      (params.sourceHandle?.toString().includes('initialHandle') &&
-        params.targetHandle?.toString().includes('targetLeft')) ||
-      (params.sourceHandle?.toString().includes('sourceRight') &&
-        params.targetHandle?.toString().includes('finalHandle')) ||
-      (params.sourceHandle?.toString().includes('sourceRight') &&
-        params.targetHandle?.toString().includes('decisionNodeLeft')) ||
-      ((params.sourceHandle?.toString().includes('decisionNodeTop') ||
-        params.sourceHandle?.toString().includes('decisionNodeBottom')) &&
-        params.targetHandle?.toString().includes('targetLeft')) ||
-      (params.sourceHandle?.toString().includes('sourceRight') &&
-        (params.targetHandle?.toString().includes('mergeNodeTop') ||
-          params.targetHandle?.toString().includes('mergeNodeBottom'))) ||
-      (params.sourceHandle?.toString().includes('mergeNodeRight') &&
-        params.targetHandle?.toString().includes('finalHandle')) ||
-      (params.sourceHandle?.toString().includes('sourceRight') &&
-        params.targetHandle?.toString().includes('forkNodeLeft')) ||
-      (params.sourceHandle?.toString().includes('forkNodeRight') &&
-        params.targetHandle?.toString().includes('targetLeft')) ||
-      (params.sourceHandle?.toString().includes('sourceRight') &&
-        params.targetHandle?.toString().includes('joinNodeLeft')) ||
-      (params.sourceHandle?.toString().includes('joinNodeRight') &&
-        params.targetHandle?.toString().includes('targetLeft'))
-    ) {
-      params.type = 'controlEdge';
-      foundType = true;
-    }
-
-    if (foundType) {
-      setElements((els) => addEdge(params, els));
     } else {
-      notification.error({
-        message: 'Could not create edge',
-        description:
-          'The edge could not be created because the source and the target are not valid.',
-      });
+      params.type = 'controlEdge';
     }
+
+    setElements((els) => addEdge(params, els));
   };
-
-  const onLoad = (_reactFlowInstance) =>
-    setReactFlowInstance(_reactFlowInstance);
-
-  const getId = () => `dndnode_${id++}`;
 
   const onDragOver = (event) => {
     event.preventDefault();
@@ -139,11 +161,8 @@ const Canvas = () => {
       y: event.clientY - reactFlowBounds.top,
     });
 
-    console.log(id);
-    console.log(type);
-    console.log(position);
     const newNode = {
-      id: getId(),
+      id: uuidv4(),
       type,
       position,
     };
@@ -152,8 +171,15 @@ const Canvas = () => {
   };
 
   return (
-    <div className="dndflow">
-      <ReactFlowProvider>
+    <>
+      <div className="optionsDropdown">
+        <Dropdown overlay={menu}>
+          <Button icon={<SettingOutlined />}>
+            Options <DownOutlined />
+          </Button>
+        </Dropdown>
+      </div>
+      <div className="dndflow">
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={elements}
@@ -165,14 +191,14 @@ const Canvas = () => {
             connectionMode="loose"
             onDrop={onDrop}
             onDragOver={onDragOver}
-            onLoad={onLoad}
+            onLoad={setReactFlowInstance}
           >
             <Background variant="dots" />
             <Controls />
           </ReactFlow>
         </div>
-      </ReactFlowProvider>
-    </div>
+      </div>
+    </>
   );
 };
 
