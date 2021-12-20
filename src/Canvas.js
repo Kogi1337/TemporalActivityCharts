@@ -103,7 +103,7 @@ const Canvas = () => {
         <Upload
           accept=".json"
           customRequest={dummyRequest}
-          showUploadList="false"
+          showUploadList={false}
           beforeUpload={beforeUpload}
         >
           <UploadOutlined /> Import from file
@@ -143,6 +143,8 @@ const Canvas = () => {
       params.type = 'controlEdge';
     }
 
+    params.data = {};
+
     setElements((els) => addEdge(params, els));
   };
 
@@ -165,6 +167,7 @@ const Canvas = () => {
       id: uuidv4(),
       type,
       position,
+      data: {},
     };
 
     setElements((es) => es.concat(newNode));

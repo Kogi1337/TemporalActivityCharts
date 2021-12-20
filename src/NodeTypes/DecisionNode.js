@@ -21,8 +21,9 @@ export default memo(({ id, data, isConnectable }) => {
 
       <Input
         className="decisionNodeInput"
-        placeholder="Decision"
         defaultValue={data?.label}
+        onChange={(ev) => (data.label = ev.target.value)}
+        placeholder="Decision"
       />
 
       <Handle

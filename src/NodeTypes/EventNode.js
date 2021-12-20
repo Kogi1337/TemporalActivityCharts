@@ -17,6 +17,7 @@ export default memo(({ id, data, isConnectable }) => {
         className="eventNodeLabel"
         placeholder="Parameter"
         defaultValue={data?.label}
+        onChange={(ev) => (data.label = ev.target.value)}
       />
 
       <Handle

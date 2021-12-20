@@ -10,6 +10,7 @@ export default function EventEdgeRight({
   targetX,
   targetY,
   style = {},
+  data,
 }) {
   const path =
     'M' +
@@ -62,7 +63,12 @@ export default function EventEdgeRight({
         className="edgebutton-foreignobject"
         requiredExtensions="http://www.w3.org/1999/xhtml"
       >
-        <Input placeholder="Constraint" className="timeConstraintInput" />
+        <Input
+          defaultValue={data?.label}
+          placeholder="Constraint"
+          className="timeConstraintInput"
+          onChange={(ev) => (data.label = ev.target.value)}
+        />
       </foreignObject>
     </>
   );

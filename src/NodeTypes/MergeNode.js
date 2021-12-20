@@ -23,6 +23,7 @@ export default memo(({ id, data, isConnectable }) => {
         className="decisionNodeInput"
         placeholder="Merge"
         defaultValue={data?.label}
+        onChange={(ev) => (data.label = ev.target.value)}
       />
 
       <Handle

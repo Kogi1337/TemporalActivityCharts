@@ -48,19 +48,22 @@ export default memo(({ id, data, isConnectable }) => {
         />
 
         <Input
-          defaultValue={data?.label}
+          defaultValue={data?.name}
+          onChange={(ev) => (data.name = ev.target.value)}
           placeholder="Name"
           className="activityInputName"
         />
 
         <Input
           defaultValue={data?.duration}
+          onChange={(ev) => (data.duration = ev.target.value)}
           placeholder="Duration"
           className="activityInputName"
         />
 
         <Input
           defaultValue={data?.continuousness}
+          onChange={(ev) => (data.continuousness = ev.target.value)}
           placeholder="Continuousness"
           className="activityInputName"
         />

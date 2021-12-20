@@ -1,6 +1,6 @@
 import './styles/App.css';
 import React from 'react';
-import ReactFlow, { ReactFlowProvider } from 'react-flow-renderer';
+import { ReactFlowProvider } from 'react-flow-renderer';
 import Sidebar from './Layout/Sidebar';
 import Headbar from './Layout/Headbar';
 import { Layout } from 'antd';
