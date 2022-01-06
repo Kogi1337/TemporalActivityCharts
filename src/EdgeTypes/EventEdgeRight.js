@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'antd';
+import { InputNumber } from 'antd';
 
 const foreignObjectSize = 100;
 
@@ -63,11 +63,12 @@ export default function EventEdgeRight({
         className="edgebutton-foreignobject"
         requiredExtensions="http://www.w3.org/1999/xhtml"
       >
-        <Input
+        <InputNumber
+          min={0}
           defaultValue={data?.label}
           placeholder="Constraint"
           className="timeConstraintInput"
-          onChange={(ev) => (data.label = ev.target.value)}
+          onChange={(value) => (data.label = value)}
         />
       </foreignObject>
     </>

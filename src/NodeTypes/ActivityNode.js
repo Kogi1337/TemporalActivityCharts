@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Input } from 'antd';
+import { Input, InputNumber, Select } from 'antd';
 import { Handle } from 'react-flow-renderer';
 
 export default memo(({ id, data, isConnectable }) => {
@@ -54,19 +54,24 @@ export default memo(({ id, data, isConnectable }) => {
           className="activityInputName"
         />
 
-        <Input
+        <InputNumber
+          min={0}
           defaultValue={data?.duration}
-          onChange={(ev) => (data.duration = ev.target.value)}
+          onChange={(value) => (data.duration = value)}
           placeholder="Duration"
           className="activityInputName"
         />
 
-        <Input
+        <Select
           defaultValue={data?.continuousness}
-          onChange={(ev) => (data.continuousness = ev.target.value)}
+          onChange={(ev) => (data.continuousness = ev)}
           placeholder="Continuousness"
           className="activityInputName"
-        />
+        >
+          <Select.Option value="continous">Continuous</Select.Option>
+          <Select.Option value="semiContinous">Semi-Continuous</Select.Option>
+          <Select.Option value="nonContinous">Non-Continuous</Select.Option>
+        </Select>
 
         <Handle
           id={'eventBottomLeft' + id}

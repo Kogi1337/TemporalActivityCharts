@@ -29,6 +29,7 @@ import MergeNode from './NodeTypes/MergeNode';
 import ForkNode from './NodeTypes/ForkNode';
 import JoinNode from './NodeTypes/JoinNode';
 import './styles/dnd.css';
+import dayjs from 'dayjs';
 
 const nodeTypes = {
   initialNode: InitialNode,
@@ -80,10 +81,8 @@ const Canvas = () => {
     return false;
   };
 
-  const downloadAsFile = async () => {
-    const flow = reactFlowInstance.toObject();
-    const fileName = 'elements';
-    const json = JSON.stringify(flow);
+  const downloadAsFile = async (array, fileName) => {
+    const json = JSON.stringify(array);
     const blob = new Blob([json], { type: 'application/json' });
     const href = await URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -92,6 +91,30 @@ const Canvas = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const convertToJson = () => {
+    let metaData = {
+      elementCount: elements.length,
+      activityNodesCount:
+        elements.filter((x) => x.type === 'activityNode').length || 0,
+      decisionNodesCount:
+        elements.filter((x) => x.type === 'decisionNode').length || 0,
+      mergeNodesCount:
+        elements.filter((x) => x.type === 'mergeNode').length || 0,
+      parameterNodesCount:
+        elements.filter((x) => x.type === 'eventNode').length || 0,
+      forkNodesCount: elements.filter((x) => x.type === 'forkNode').length || 0,
+      joinNodesCount: elements.filter((x) => x.type === 'joinNode').length || 0,
+      controlFlowsCount:
+        elements.filter((x) => x.type.includes('controlEdge')).length || 0,
+      parameterEdgesCount:
+        elements.filter((x) => x.type.includes('eventEdge')).length || 0,
+      timeConstraintsCount:
+        elements.filter((x) => x.type.includes('timeConstraint')).length || 0,
+    };
+    downloadAsFile(elements, 'elements_' + dayjs().format('DD.MM.YYYY'));
+    downloadAsFile(metaData, 'metadata_' + dayjs().format('DD.MM.YYYY'));
   };
 
   const menu = (
@@ -109,8 +132,19 @@ const Canvas = () => {
           <UploadOutlined /> Import from file
         </Upload>
       </Menu.Item>
-      <Menu.Item key="3" onClick={downloadAsFile}>
-        <DownloadOutlined /> Download as file
+      <Menu.Item
+        key="3"
+        onClick={() =>
+          downloadAsFile(
+            reactFlowInstance.toObject(),
+            'activity_chart_' + dayjs().format('DD.MM.YYYY')
+          )
+        }
+      >
+        <DownloadOutlined /> Save for import
+      </Menu.Item>
+      <Menu.Item key="4" onClick={convertToJson}>
+        <DownloadOutlined /> Export with metadata
       </Menu.Item>
     </Menu>
   );
