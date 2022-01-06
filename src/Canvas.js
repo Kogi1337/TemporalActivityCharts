@@ -164,13 +164,13 @@ const Canvas = () => {
     ) {
       params.type = 'timeConstraintEdgeBottom';
     } else if (
-      params.sourceHandle?.toString().includes('event') &&
+      params.sourceHandle?.toString().includes('eventLeft') ||
       params.targetHandle?.toString().includes('eventLeft')
     ) {
       params.type = 'eventEdgeLeft';
     } else if (
-      params.sourceHandle?.toString().includes('eventRight') &&
-      params.targetHandle?.toString().includes('event')
+      params.sourceHandle?.toString().includes('eventRight') ||
+      params.targetHandle?.toString().includes('eventRight')
     ) {
       params.type = 'eventEdgeRight';
     } else {
