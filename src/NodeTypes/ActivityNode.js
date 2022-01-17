@@ -75,14 +75,14 @@ export default memo(({ id, data, isConnectable }) => {
         </div>
 
         <Select
-          defaultValue={data?.continuousness}
-          onChange={(ev) => (data.continuousness = ev)}
-          placeholder='Continuousness'
+          defaultValue={data?.contingentness}
+          onChange={(ev) => (data.contingentness = ev)}
+          placeholder='Contingentness'
           className='activityInputName'
         >
-          <Select.Option value='continous'>Continuous</Select.Option>
-          <Select.Option value='semiContinous'>Semi-Continuous</Select.Option>
-          <Select.Option value='nonContinous'>Non-Continuous</Select.Option>
+          <Select.Option value='continous'>Contingent</Select.Option>
+          <Select.Option value='semiContinous'>Semi-Contingent</Select.Option>
+          <Select.Option value='nonContinous'>Non-Contingent</Select.Option>
         </Select>
 
         <Handle
