@@ -97,6 +97,11 @@ body {
   margin: 5px 5px 5px 5px;
 }
 
+.activityNode .activityNodeMiddle .activityInputDuration {
+  width: 35%;
+  margin: 5px 5px 5px 5px;
+}
+
 .activityNode .activityNodeLeft {
   width: 25%;
   height: 100%;
@@ -172,4 +177,8 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.fontSizeDuration {
+  font-size: 30px;
 }
