@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/temporalactivitycharts/static/css/main.b17db12e.chunk.css",
-    "main.js": "/temporalactivitycharts/static/js/main.78b5a5aa.chunk.js",
-    "main.js.map": "/temporalactivitycharts/static/js/main.78b5a5aa.chunk.js.map",
-    "runtime-main.js": "/temporalactivitycharts/static/js/runtime-main.2317faca.js",
-    "runtime-main.js.map": "/temporalactivitycharts/static/js/runtime-main.2317faca.js.map",
-    "static/css/2.a92a4962.chunk.css": "/temporalactivitycharts/static/css/2.a92a4962.chunk.css",
-    "static/js/2.5a40a1c8.chunk.js": "/temporalactivitycharts/static/js/2.5a40a1c8.chunk.js",
-    "static/js/2.5a40a1c8.chunk.js.map": "/temporalactivitycharts/static/js/2.5a40a1c8.chunk.js.map",
-    "index.html": "/temporalactivitycharts/index.html",
-    "precache-manifest.73f1d408eba8387fda7937ba1a73ab9b.js": "/temporalactivitycharts/precache-manifest.73f1d408eba8387fda7937ba1a73ab9b.js",
-    "service-worker.js": "/temporalactivitycharts/service-worker.js",
-    "static/css/2.a92a4962.chunk.css.map": "/temporalactivitycharts/static/css/2.a92a4962.chunk.css.map",
-    "static/css/main.b17db12e.chunk.css.map": "/temporalactivitycharts/static/css/main.b17db12e.chunk.css.map",
-    "static/js/2.5a40a1c8.chunk.js.LICENSE.txt": "/temporalactivitycharts/static/js/2.5a40a1c8.chunk.js.LICENSE.txt",
-    "static/media/activity.png": "/temporalactivitycharts/static/media/activity.c2915a9f.png",
-    "static/media/forkNode.png": "/temporalactivitycharts/static/media/forkNode.67dd55ee.png",
-    "static/media/joinNode.png": "/temporalactivitycharts/static/media/joinNode.818f2468.png",
-    "static/media/parameterNode.png": "/temporalactivitycharts/static/media/parameterNode.13ad4099.png"
+    "main.css": "/TemporalActivityCharts/static/css/main.b17db12e.chunk.css",
+    "main.js": "/TemporalActivityCharts/static/js/main.594cde04.chunk.js",
+    "main.js.map": "/TemporalActivityCharts/static/js/main.594cde04.chunk.js.map",
+    "runtime-main.js": "/TemporalActivityCharts/static/js/runtime-main.561209cd.js",
+    "runtime-main.js.map": "/TemporalActivityCharts/static/js/runtime-main.561209cd.js.map",
+    "static/css/2.a92a4962.chunk.css": "/TemporalActivityCharts/static/css/2.a92a4962.chunk.css",
+    "static/js/2.2fc293d6.chunk.js": "/TemporalActivityCharts/static/js/2.2fc293d6.chunk.js",
+    "static/js/2.2fc293d6.chunk.js.map": "/TemporalActivityCharts/static/js/2.2fc293d6.chunk.js.map",
+    "index.html": "/TemporalActivityCharts/index.html",
+    "precache-manifest.fc15dc821e95ed1e3308d744cf323da9.js": "/TemporalActivityCharts/precache-manifest.fc15dc821e95ed1e3308d744cf323da9.js",
+    "service-worker.js": "/TemporalActivityCharts/service-worker.js",
+    "static/css/2.a92a4962.chunk.css.map": "/TemporalActivityCharts/static/css/2.a92a4962.chunk.css.map",
+    "static/css/main.b17db12e.chunk.css.map": "/TemporalActivityCharts/static/css/main.b17db12e.chunk.css.map",
+    "static/js/2.2fc293d6.chunk.js.LICENSE.txt": "/TemporalActivityCharts/static/js/2.2fc293d6.chunk.js.LICENSE.txt",
+    "static/media/activity.png": "/TemporalActivityCharts/static/media/activity.c2915a9f.png",
+    "static/media/forkNode.png": "/TemporalActivityCharts/static/media/forkNode.67dd55ee.png",
+    "static/media/joinNode.png": "/TemporalActivityCharts/static/media/joinNode.818f2468.png",
+    "static/media/parameterNode.png": "/TemporalActivityCharts/static/media/parameterNode.13ad4099.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.2317faca.js",
+    "static/js/runtime-main.561209cd.js",
     "static/css/2.a92a4962.chunk.css",
-    "static/js/2.5a40a1c8.chunk.js",
+    "static/js/2.2fc293d6.chunk.js",
     "static/css/main.b17db12e.chunk.css",
-    "static/js/main.78b5a5aa.chunk.js"
+    "static/js/main.594cde04.chunk.js"
   ]
 }
