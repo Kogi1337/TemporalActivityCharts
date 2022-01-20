@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "48ae1c318b5791fb7e6e6cded782db90",
+    "revision": "0ff749d8157b8e21ca789df343bc237f",
     "url": "/TemporalActivityCharts/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/TemporalActivityCharts/static/css/2.a92a4962.chunk.css"
   },
   {
-    "revision": "d1fdff1d6b37687561b4",
-    "url": "/TemporalActivityCharts/static/css/main.b17db12e.chunk.css"
+    "revision": "3033fd28211a344745e0",
+    "url": "/TemporalActivityCharts/static/css/main.c963b357.chunk.css"
   },
   {
     "revision": "f8512797f85bd588d323",
@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/TemporalActivityCharts/static/js/2.2fc293d6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d1fdff1d6b37687561b4",
+    "revision": "3033fd28211a344745e0",
     "url": "/TemporalActivityCharts/static/js/main.594cde04.chunk.js"
   },
   {

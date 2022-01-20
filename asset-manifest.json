@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/TemporalActivityCharts/static/css/main.b17db12e.chunk.css",
+    "main.css": "/TemporalActivityCharts/static/css/main.c963b357.chunk.css",
     "main.js": "/TemporalActivityCharts/static/js/main.594cde04.chunk.js",
     "main.js.map": "/TemporalActivityCharts/static/js/main.594cde04.chunk.js.map",
     "runtime-main.js": "/TemporalActivityCharts/static/js/runtime-main.561209cd.js",
@@ -9,10 +9,10 @@
     "static/js/2.2fc293d6.chunk.js": "/TemporalActivityCharts/static/js/2.2fc293d6.chunk.js",
     "static/js/2.2fc293d6.chunk.js.map": "/TemporalActivityCharts/static/js/2.2fc293d6.chunk.js.map",
     "index.html": "/TemporalActivityCharts/index.html",
-    "precache-manifest.fc15dc821e95ed1e3308d744cf323da9.js": "/TemporalActivityCharts/precache-manifest.fc15dc821e95ed1e3308d744cf323da9.js",
+    "precache-manifest.81eafa59f2b57f19279de217a114f143.js": "/TemporalActivityCharts/precache-manifest.81eafa59f2b57f19279de217a114f143.js",
     "service-worker.js": "/TemporalActivityCharts/service-worker.js",
     "static/css/2.a92a4962.chunk.css.map": "/TemporalActivityCharts/static/css/2.a92a4962.chunk.css.map",
-    "static/css/main.b17db12e.chunk.css.map": "/TemporalActivityCharts/static/css/main.b17db12e.chunk.css.map",
+    "static/css/main.c963b357.chunk.css.map": "/TemporalActivityCharts/static/css/main.c963b357.chunk.css.map",
     "static/js/2.2fc293d6.chunk.js.LICENSE.txt": "/TemporalActivityCharts/static/js/2.2fc293d6.chunk.js.LICENSE.txt",
     "static/media/activity.png": "/TemporalActivityCharts/static/media/activity.c2915a9f.png",
     "static/media/forkNode.png": "/TemporalActivityCharts/static/media/forkNode.67dd55ee.png",
@@ -23,7 +23,7 @@
     "static/js/runtime-main.561209cd.js",
     "static/css/2.a92a4962.chunk.css",
     "static/js/2.2fc293d6.chunk.js",
-    "static/css/main.b17db12e.chunk.css",
+    "static/css/main.c963b357.chunk.css",
     "static/js/main.594cde04.chunk.js"
   ]
 }
