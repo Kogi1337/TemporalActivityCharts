@@ -2,7 +2,7 @@
   "name": "activity_charts",
   "version": "0.1.0",
   "private": true,
-  "http://kogi1337.github.io/temporalactivitycharts",
+  "homepage": "http://kogi1337.github.io/temporalactivitycharts",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
