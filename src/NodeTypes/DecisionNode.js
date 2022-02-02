@@ -18,7 +18,7 @@ const DecisionNode = observer(({ id, data, isConnectable }) => {
       : {};
 
   return (
-    <div className="decisionNode" onClick={setSelected} style={style}>
+    <div className="decisionNode" onMouseDown={setSelected} style={style}>
       <svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
         <path d={path} className="decisionNodePath" />
       </svg>

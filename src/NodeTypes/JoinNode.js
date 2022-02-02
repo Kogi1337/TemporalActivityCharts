@@ -17,7 +17,7 @@ const JoinNode = observer(({ id, data, isConnectable }) => {
       : {};
 
   return (
-    <div className="forkNode" onClick={setSelected} style={style}>
+    <div className="forkNode" onMouseDown={setSelected} style={style}>
       <svg height="150" width="20" xmlns="http://www.w3.org/2000/svg">
         <path d={path} className="forkNodePath" />
       </svg>

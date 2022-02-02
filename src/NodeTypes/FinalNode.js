@@ -17,7 +17,7 @@ const FinalEdge = observer(({ id, data, isConnectable }) => {
       : {};
 
   return (
-    <div className="finalNode" onClick={setSelected} style={style}>
+    <div className="finalNode" onMouseDown={setSelected} style={style}>
       <Handle
         id={"finalHandle" + id}
         position="top"

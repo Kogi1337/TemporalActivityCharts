@@ -17,7 +17,7 @@ const InitialNode = observer(({ id, data, isConnectable }) => {
       : {};
 
   return (
-    <div className="initialNode" onClick={setSelected} style={style}>
+    <div className="initialNode" onMouseDown={setSelected} style={style}>
       <Handle
         id={"initialHandle" + id}
         position="bottom"

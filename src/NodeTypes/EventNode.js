@@ -16,7 +16,7 @@ const EventNode = observer(({ id, data, isConnectable }) => {
       : {};
 
   return (
-    <div className="eventNode" onClick={setSelected} style={style}>
+    <div className="eventNode" onMouseDown={setSelected} style={style}>
       <Handle
         className="handle-vertical"
         id={"eventLeft" + id}
