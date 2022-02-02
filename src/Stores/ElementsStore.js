@@ -4,12 +4,14 @@ export default class ElementStore {
   elements = [];
   transform = undefined;
   reactFlowInstance = undefined;
+  activeElementId = undefined;
 
   constructor() {
     makeObservable(this, {
       elements: observable,
       transform: observable,
       reactFlowInstance: observable,
+      activeElementId: observable,
     });
   }
 }

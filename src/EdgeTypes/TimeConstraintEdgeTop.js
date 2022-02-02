@@ -5,7 +5,7 @@ import { observer } from "mobx-react";
 const foreignObjectSize = 140;
 
 const TimeConstraintEdgeTop = observer(
-  ({ id, sourceX, sourceY, targetX, targetY, style = {}, data }) => {
+  ({ id, sourceX, sourceY, targetX, targetY, data }) => {
     const path =
       "M" +
       sourceX +
@@ -22,7 +22,7 @@ const TimeConstraintEdgeTop = observer(
 
     const onChangeType = (value) => {
       try {
-        if (value === "LBC") {
+        if (value === "UBC") {
           let elements = [...data.elementStore.elements];
           data.elementStore.elements = [];
 
@@ -58,8 +58,19 @@ const TimeConstraintEdgeTop = observer(
       </Select>
     );
 
+    const setSelected = () => {
+      data.elementStore.activeElementId !== id
+        ? (data.elementStore.activeElementId = id)
+        : (data.elementStore.activeElementId = undefined);
+    };
+
+    let style =
+      data.elementStore.activeElementId === id
+        ? { stroke: "#000", strokeWidth: "2" }
+        : {};
+
     return (
-      <>
+      <g onClick={setSelected}>
         <marker
           id="triangle"
           markerWidth="30"
@@ -103,7 +114,7 @@ const TimeConstraintEdgeTop = observer(
             onChange={(value) => (data.label = value)}
           />
         </foreignObject>
-      </>
+      </g>
     );
   }
 );

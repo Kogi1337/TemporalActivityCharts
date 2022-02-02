@@ -124,10 +124,7 @@ body {
   stroke: #555;
   stroke-width: 1;
   stroke-dasharray: 5;
-}
-
-.timeConstraintEdge:active {
-  stroke: #000;
+  pointer-events: all;
 }
 
 .eventEdge {
@@ -181,4 +178,22 @@ body {
 
 .fontSizeDuration {
   font-size: 20px;
+}
+
+.handle-horizontal {
+  width: 20px !important;
+  border-radius: 4px !important;
+}
+
+.handle-vertical {
+  height: 20px !important;
+  border-radius: 4px !important;
+}
+
+rect.btn {
+  stroke: #fff;
+  fill: #fff;
+  fill-opacity: 0;
+  stroke-opacity: 0;
+  pointer-events: all;
 }

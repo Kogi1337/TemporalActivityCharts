@@ -112,22 +112,30 @@ const Canvas = observer(({ elementStore }) => {
         y: event.clientY - reactFlowBounds.top,
       });
 
-      const newNode = {
-        id: uuidv4(),
-        type,
-        position,
-        data: {},
-      };
+      if (type) {
+        const newNode = {
+          id: uuidv4(),
+          type,
+          position,
+          data: { elementStore: elementStore },
+        };
 
-      elementStore.elements = elementStore.elements.concat(newNode);
+        elementStore.elements = elementStore.elements.concat(newNode);
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
+  const unselect = (ev) => {
+    if (ev?.target?.className === "react-flow__pane") {
+      elementStore.activeElementId = undefined;
+    }
+  };
+
   return (
     <>
-      <div className="dndflow">
+      <div id="canvas" className="dndflow" onClick={unselect}>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={elementStore.elements}
