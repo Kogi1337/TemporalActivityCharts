@@ -1,25 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactFlow, {
   Background,
-  removeElements,
-  addEdge,
   Controls,
   useZoomPanHelper,
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
-import InitialNode from "./NodeTypes/InitialNode";
-import ActivityNode from "./NodeTypes/ActivityNode";
-import FinalNode from "./NodeTypes/FinalNode";
-import DecisionNode from "./NodeTypes/DecisionNode";
-import TimeConstraintEdgeTop from "./EdgeTypes/TimeConstraintEdgeTop";
-import TimeConstraintEdgeBottom from "./EdgeTypes/TimeConstraintEdgeBottom";
-import EventNode from "./NodeTypes/EventNode";
-import EventEdgeLeft from "./EdgeTypes/EventEdgeLeft";
-import EventEdgeRight from "./EdgeTypes/EventEdgeRight";
-import ControlEdge from "./EdgeTypes/ControlEdge";
-import MergeNode from "./NodeTypes/MergeNode";
-import ForkNode from "./NodeTypes/ForkNode";
-import JoinNode from "./NodeTypes/JoinNode";
+import InitialNode from "./NodeTypes/ActivityDiagram/InitialNode";
+import ActivityNode from "./NodeTypes/ActivityDiagram/ActivityNode";
+import FinalNode from "./NodeTypes/ActivityDiagram/FinalNode";
+import DecisionNode from "./NodeTypes/ActivityDiagram/DecisionNode";
+import TimeConstraintEdgeTop from "./EdgeTypes/ActivityDiagram/TimeConstraintEdgeTop";
+import TimeConstraintEdgeBottom from "./EdgeTypes/ActivityDiagram/TimeConstraintEdgeBottom";
+import EventNode from "./NodeTypes/ActivityDiagram/EventNode";
+import EventEdgeLeft from "./EdgeTypes/ActivityDiagram/EventEdgeLeft";
+import EventEdgeRight from "./EdgeTypes/ActivityDiagram/EventEdgeRight";
+import ControlEdge from "./EdgeTypes/ActivityDiagram/ControlEdge";
+import MergeNode from "./NodeTypes/ActivityDiagram/MergeNode";
+import ForkNode from "./NodeTypes/ActivityDiagram/ForkNode";
+import JoinNode from "./NodeTypes/ActivityDiagram/JoinNode";
 import "./styles/dnd.css";
 import { observer } from "mobx-react";
 
@@ -55,10 +53,7 @@ const Canvas = observer(({ elementStore }) => {
   });
 
   const onElementsRemove = (elementsToRemove) => {
-    elementStore.elements = removeElements(
-      elementsToRemove,
-      elementStore.elements
-    );
+    elementStore.removeElement(elementsToRemove);
   };
 
   const onConnect = (params) => {
@@ -89,7 +84,7 @@ const Canvas = observer(({ elementStore }) => {
 
       if (params.sourceHandle !== params.targetHandle) {
         params.data = { elementStore: elementStore };
-        elementStore.elements = addEdge(params, elementStore.elements);
+        elementStore.addEdge(params);
       }
     } catch (err) {
       console.log(err);
@@ -120,7 +115,7 @@ const Canvas = observer(({ elementStore }) => {
           data: { elementStore: elementStore },
         };
 
-        elementStore.elements = elementStore.elements.concat(newNode);
+        elementStore.addElement(newNode);
       }
     } catch (err) {
       console.log(err);

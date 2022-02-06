@@ -134,6 +134,12 @@ body {
   stroke-dasharray: 2;
 }
 
+.nodeEdge {
+  fill: none;
+  stroke: #555;
+  stroke-width: 1;
+}
+
 .controlEdge {
   fill: none;
   stroke: #000;
@@ -196,4 +202,29 @@ rect.btn {
   fill-opacity: 0;
   stroke-opacity: 0;
   pointer-events: all;
+}
+
+.ant-tabs > .ant-tabs-nav,
+.ant-tabs > div > .ant-tabs-nav {
+  background: white;
+  padding-left: 15px;
+  margin-bottom: 0px !important;
+}
+
+.nodeTcn {
+  height: 80px;
+  width: 80px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid #000;
+}
+
+.nodeTcn span {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

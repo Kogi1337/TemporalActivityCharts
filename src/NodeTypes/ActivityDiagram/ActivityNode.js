@@ -15,6 +15,23 @@ const ActivityNode = observer(({ id, data, isConnectable }) => {
       ? { border: "2px solid #000" }
       : {};
 
+  const onChangeName = (ev) => {
+    data.name = ev.target.value;
+    data.elementStore.transformElementsToTCN();
+  };
+
+  const onChangeDurationMin = (value) => {
+    data.durationMin = value;
+  };
+
+  const onChangeDurationMax = (value) => {
+    data.durationMax = value;
+  };
+
+  const onChangeDurationType = (value) => {
+    data.durationType = value;
+  };
+
   return (
     <div className="activityNode" onMouseDown={setSelected} style={style}>
       <div className="activityNodeLeft">
@@ -48,7 +65,7 @@ const ActivityNode = observer(({ id, data, isConnectable }) => {
       <div className="activityNodeMiddle">
         <Input
           defaultValue={data?.name}
-          onChange={(ev) => (data.name = ev.target.value)}
+          onChange={onChangeName}
           placeholder="Name"
           className="activityInputName"
         />
@@ -58,7 +75,7 @@ const ActivityNode = observer(({ id, data, isConnectable }) => {
           <InputNumber
             min={0}
             defaultValue={data?.durationMin}
-            onChange={(value) => (data.durationMin = value)}
+            onChange={onChangeDurationMin}
             placeholder="Duration"
             className="activityInputDuration"
           />
@@ -66,7 +83,7 @@ const ActivityNode = observer(({ id, data, isConnectable }) => {
           <InputNumber
             min={0}
             defaultValue={data?.durationMax}
-            onChange={(value) => (data.durationMax = value)}
+            onChange={onChangeDurationMax}
             placeholder="Duration"
             className="activityInputDuration"
           />
@@ -74,8 +91,8 @@ const ActivityNode = observer(({ id, data, isConnectable }) => {
         </div>
 
         <Select
-          defaultValue={data?.contingentness}
-          onChange={(ev) => (data.contingentness = ev)}
+          defaultValue={data?.durationType}
+          onChange={onChangeDurationType}
           placeholder="Duration-Type"
           className="activityInputName"
         >
