@@ -22,14 +22,17 @@ const ActivityNode = observer(({ id, data, isConnectable }) => {
 
   const onChangeDurationMin = (value) => {
     data.durationMin = value;
+    data.elementStore.transformElementsToTCN();
   };
 
   const onChangeDurationMax = (value) => {
     data.durationMax = value;
+    data.elementStore.transformElementsToTCN();
   };
 
   const onChangeDurationType = (value) => {
     data.durationType = value;
+    data.elementStore.transformElementsToTCN();
   };
 
   return (

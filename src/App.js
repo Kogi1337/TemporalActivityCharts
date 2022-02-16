@@ -39,9 +39,7 @@ class App extends React.Component {
                   key="2"
                   style={canvasStyle}
                 >
-                  <ReactFlowProvider>
-                    <TCNCanvas elementStore={elementStore} />
-                  </ReactFlowProvider>
+                  <TCNCanvas elementStore={elementStore} />
                 </TabPane>
               </Tabs>
             </Content>

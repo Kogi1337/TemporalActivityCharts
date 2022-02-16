@@ -1,6 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 
+const foreignObjectSize = 140;
+
 const NodeEdge = observer(
   ({ id, sourceX, sourceY, targetX, targetY, data }) => {
     const path =
@@ -11,7 +13,7 @@ const NodeEdge = observer(
       "Q" +
       (sourceX + targetX) / 2 +
       " " +
-      (sourceY > targetY ? sourceY + 200 : targetY + 200) +
+      (sourceY > targetY ? sourceY + 100 : targetY + 100) +
       ", " +
       targetX +
       " " +
@@ -20,7 +22,7 @@ const NodeEdge = observer(
     return (
       <>
         <marker
-          id="triangle"
+          id="header"
           markerWidth="30"
           markerHeight="30"
           viewBox="-20 -20 40 40"
@@ -38,13 +40,17 @@ const NodeEdge = observer(
           />
         </marker>
 
-        <path
-          id={id}
-          className="nodeEdge"
-          d={path}
-          markerEnd="url(#triangle)"
-          style={style}
-        />
+        <path id={id} className="nodeEdge" d={path} markerEnd="url(#header)" />
+
+        <foreignObject
+          width={foreignObjectSize}
+          height={foreignObjectSize}
+          x={(sourceX + targetX) / 2}
+          y={sourceY > targetY ? sourceY + 50 : targetY + 50}
+          requiredExtensions="http://www.w3.org/1999/xhtml"
+        >
+          <span>{data?.label}</span>
+        </foreignObject>
       </>
     );
   }

@@ -8,17 +8,29 @@ const Node = observer(({ id, data, isConnectable }) => {
       <Handle
         id={"topNodeTcn" + id}
         position="top"
+        className="node-handle"
         style={{ background: "#000" }}
-        onConnect={(params) => console.log("handle onConnect", params)}
-        isConnectable={isConnectable}
       />
 
       <Handle
         id={"bottomNodeTcn" + id}
         position="bottom"
+        className="node-handle"
+        style={{ background: "#000", top: "95%" }}
+      />
+
+      <Handle
+        id={"leftNodeTcn" + id}
+        position="left"
+        className="node-handle"
         style={{ background: "#000" }}
-        onConnect={(params) => console.log("handle onConnect", params)}
-        isConnectable={isConnectable}
+      />
+
+      <Handle
+        id={"rightNodeTcn" + id}
+        position="right"
+        className="node-handle"
+        style={{ background: "#000" }}
       />
 
       <span>{data.label}</span>

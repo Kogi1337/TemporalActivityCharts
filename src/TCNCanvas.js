@@ -1,15 +1,18 @@
 import React from "react";
 import ReactFlow, { Background, Controls } from "react-flow-renderer";
-
 import "./styles/dnd.css";
 import { observer } from "mobx-react";
-
 import Node from "./NodeTypes/TCN/Node";
-
-import NodeEdge from "./EdgeTypes/TCN/NodeEdge";
+import NodeEdgeTop from "./EdgeTypes/TCN/NodeEdgeTop";
+import NodeEdgeBottom from "./EdgeTypes/TCN/NodeEdgeBottom";
+import NodeEdgeControl from "./EdgeTypes/TCN/NodeEdgeControl";
 
 const nodeTypes = { node: Node };
-const edgeTypes = { nodeEdge: NodeEdge };
+const edgeTypes = {
+  nodeEdgeTop: NodeEdgeTop,
+  nodeEdgeBottom: NodeEdgeBottom,
+  nodeEdgeControl: NodeEdgeControl,
+};
 
 const TCNCanvas = observer(({ elementStore }) => {
   return (

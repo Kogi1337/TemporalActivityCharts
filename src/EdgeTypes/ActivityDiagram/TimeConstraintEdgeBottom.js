@@ -41,6 +41,7 @@ const TimeConstraintEdgeBottom = observer(
           data.elementStore.elements = elements;
         }
         data.constraintType = value;
+        data.elementStore.transformElementsToTCN();
       } catch (err) {
         console.log(err);
       }
@@ -67,6 +68,11 @@ const TimeConstraintEdgeBottom = observer(
       data.elementStore.activeElementId === id
         ? { stroke: "#000", strokeWidth: "2" }
         : {};
+
+    const onChangeLabel = (ev) => {
+      data.label = ev;
+      data.elementStore.transformElementsToTCN();
+    };
 
     return (
       <g onClick={setSelected}>
@@ -111,7 +117,7 @@ const TimeConstraintEdgeBottom = observer(
               defaultValue={data?.label}
               placeholder="Constraint"
               className="timeConstraintInput"
-              onChange={(value) => (data.label = value)}
+              onChange={onChangeLabel}
             />
           </div>
         </foreignObject>
