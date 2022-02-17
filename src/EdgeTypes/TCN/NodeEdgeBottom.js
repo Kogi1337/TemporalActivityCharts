@@ -19,6 +19,9 @@ const NodeEdge = observer(
       " " +
       targetY;
 
+    var midX = sourceX + (targetX - sourceX) * 0.5;
+    var midY = sourceY + (targetY - sourceY) * 0.5;
+
     return (
       <>
         <marker
@@ -45,8 +48,8 @@ const NodeEdge = observer(
         <foreignObject
           width={foreignObjectSize}
           height={foreignObjectSize}
-          x={(sourceX + targetX) / 2}
-          y={sourceY > targetY ? sourceY + 50 : targetY + 50}
+          x={midX}
+          y={midY + 40}
           requiredExtensions="http://www.w3.org/1999/xhtml"
         >
           <span>{data?.label}</span>

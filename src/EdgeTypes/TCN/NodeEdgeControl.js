@@ -7,6 +7,10 @@ const NodeEdgeControl = observer(
   ({ id, sourceX, sourceY, targetX, targetY, data }) => {
     const path = "M" + sourceX + " " + sourceY + "L" + targetX + " " + targetY;
 
+    // calc line's midpoint
+    var midX = sourceX + (targetX - sourceX) * 0.5;
+    var midY = sourceY + (targetY - sourceY) * 0.5;
+
     return (
       <>
         <marker
@@ -38,11 +42,11 @@ const NodeEdgeControl = observer(
         <foreignObject
           width={foreignObjectSize}
           height={foreignObjectSize}
-          x={(sourceX + targetX) / 2}
-          y={sourceY > targetY ? sourceY - 50 : targetY - 50}
+          x={midX}
+          y={midY}
           requiredExtensions="http://www.w3.org/1999/xhtml"
         >
-          <span>0</span>
+          <span>{data?.label || 0}</span>
         </foreignObject>
       </>
     );

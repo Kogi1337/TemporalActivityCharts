@@ -18,6 +18,8 @@ export default class ElementStore {
   }
 
   transformElementsToTCN = () => {
+    let forkNodeCounter = 0;
+    let joinNodeCounter = 0;
     this.tcnElements = [];
 
     this.elements.forEach((element) => {
@@ -65,7 +67,7 @@ export default class ElementStore {
             label:
               element.data?.durationMax !== undefined
                 ? element.data.durationMax * -1
-                : -1,
+                : undefined,
           },
         };
         this.tcnElements = addEdge(edgeDurationMax, this.tcnElements);
@@ -80,7 +82,7 @@ export default class ElementStore {
             label:
               element.data?.durationMin !== undefined
                 ? element.data?.durationMin
-                : -1,
+                : undefined,
           },
         };
         this.tcnElements = addEdge(edgeDurationMin, this.tcnElements);
@@ -154,16 +156,79 @@ export default class ElementStore {
         };
 
         this.tcnElements = this.tcnElements.concat(finalNode);
+      } else if (element.type === "forkNode") {
+        forkNodeCounter++;
+
+        const forkNode = {
+          id: element.id,
+          type: "node",
+          position: element.position,
+          data: {
+            elementStore: this,
+            label: "Fork " + forkNodeCounter,
+            sourceActivity: element.id,
+          },
+        };
+
+        this.tcnElements = this.tcnElements.concat(forkNode);
+      } else if (element.type === "joinNode") {
+        joinNodeCounter++;
+
+        const joinNode = {
+          id: element.id,
+          type: "node",
+          position: element.position,
+          data: {
+            elementStore: this,
+            label: "Join " + joinNodeCounter++,
+            sourceActivity: element.id,
+          },
+        };
+
+        this.tcnElements = this.tcnElements.concat(joinNode);
+      } else if (element.type === "decisionNode") {
+        const decisionNode = {
+          id: element.id,
+          type: "node",
+          position: element.position,
+          data: {
+            elementStore: this,
+            label: element.data?.label,
+            sourceActivity: element.id,
+          },
+        };
+
+        this.tcnElements = this.tcnElements.concat(decisionNode);
+      } else if (element.type === "mergeNode") {
+        const mergeNode = {
+          id: element.id,
+          type: "node",
+          position: element.position,
+          data: {
+            elementStore: this,
+            label: element.data?.label,
+            sourceActivity: element.id,
+          },
+        };
+
+        this.tcnElements = this.tcnElements.concat(mergeNode);
       }
     });
 
+    let decisionNode;
+
     this.elements.forEach((element) => {
       if (element.type === "controlEdge") {
-        let targetType = this.elements.find(
-          (x) => x.id === element.target
-        ).type;
+        let target = this.elements.find((x) => x.id === element.target);
+        let source = this.elements.find((x) => x.id === element.source);
 
-        if (targetType === "finalNode") {
+        if (
+          target.type === "finalNode" ||
+          target.type === "forkNode" ||
+          target.type === "joinNode" ||
+          target.type === "decisionNode" ||
+          target.type === "mergeNode"
+        ) {
           let controlEdge = {
             type: "nodeEdgeControl",
             source: element.target,
@@ -172,6 +237,40 @@ export default class ElementStore {
             targetHandle: "rightNodeTcnsecond" + element.source,
           };
           this.tcnElements = addEdge(controlEdge, this.tcnElements);
+        } else if (
+          source.type === "forkNode" ||
+          source.type === "joinNode" ||
+          source.type === "decisionNode" ||
+          source.type === "mergeNode"
+        ) {
+          let data = { label: source.data?.label };
+          if (source.type === "decisionNode" && decisionNode) {
+            if (
+              this.tcnElements.find(
+                (x) =>
+                  x.source === decisionNode.source &&
+                  x.target === decisionNode.target &&
+                  x.type === decisionNode.type
+              )
+            ) {
+              data = {
+                label: source.data?.label
+                  ? "!" + source.data?.label
+                  : undefined,
+              };
+            }
+          }
+
+          let controlEdge = {
+            type: "nodeEdgeControl",
+            source: "first" + element.target,
+            sourceHandle: "leftNodeTcnfirst" + element.target,
+            target: element.source,
+            targetHandle: "rightNodeTcn" + element.source,
+            data: data,
+          };
+          this.tcnElements = addEdge(controlEdge, this.tcnElements);
+          decisionNode = controlEdge;
         } else {
           let controlEdge = {
             type: "nodeEdgeControl",

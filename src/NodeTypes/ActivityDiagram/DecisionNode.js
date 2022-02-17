@@ -17,6 +17,11 @@ const DecisionNode = observer(({ id, data, isConnectable }) => {
       ? { stroke: "#000", strokeWidth: "2" }
       : {};
 
+  const onChangeLabel = (ev) => {
+    data.label = ev.target.value;
+    data.elementStore.transformElementsToTCN();
+  };
+
   return (
     <div className="decisionNode" onMouseDown={setSelected} style={style}>
       <svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +39,7 @@ const DecisionNode = observer(({ id, data, isConnectable }) => {
       <Input
         className="decisionNodeInput"
         defaultValue={data?.label}
-        onChange={(ev) => (data.label = ev.target.value)}
+        onChange={onChangeLabel}
         placeholder="Decision"
       />
 
