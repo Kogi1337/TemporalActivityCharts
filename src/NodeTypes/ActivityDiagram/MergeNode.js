@@ -7,15 +7,20 @@ const MergeNode = observer(({ id, data, isConnectable }) => {
   const path = "M 55 0 L 110 55 L 55 110 L 0 55 L 55 0";
 
   const setSelected = () => {
-    data.elementStore.activeElementId !== id
+    data.elementStore?.activeElementId !== id
       ? (data.elementStore.activeElementId = id)
       : (data.elementStore.activeElementId = undefined);
   };
 
   let style =
-    data.elementStore.activeElementId === id
+    data.elementStore?.activeElementId === id
       ? { stroke: "#000", strokeWidth: "2" }
       : {};
+
+  const onChangeLabel = (ev) => {
+    data.label = ev.target.value;
+    data.elementStore.transformElementsToTCN();
+  };
 
   return (
     <div className="decisionNode" onMouseDown={setSelected} style={style}>
@@ -35,7 +40,7 @@ const MergeNode = observer(({ id, data, isConnectable }) => {
         className="decisionNodeInput"
         placeholder="Merge"
         defaultValue={data?.label}
-        onChange={(ev) => (data.label = ev.target.value)}
+        onChange={onChangeLabel}
       />
 
       <Handle

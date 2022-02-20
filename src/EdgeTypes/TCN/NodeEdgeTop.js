@@ -49,7 +49,7 @@ const NodeEdge = observer(
           width={foreignObjectSize}
           height={foreignObjectSize}
           x={midX}
-          y={midY - 40}
+          y={midY - 50}
           requiredExtensions="http://www.w3.org/1999/xhtml"
         >
           <span>{data?.label}</span>

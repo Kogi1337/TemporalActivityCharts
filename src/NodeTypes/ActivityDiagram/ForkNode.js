@@ -6,13 +6,13 @@ const ForkNode = observer(({ id, data, isConnectable }) => {
   const path = "M 0 0 L 20 0 L 150 150 L 0 150 L 0 0";
 
   const setSelected = () => {
-    data.elementStore.activeElementId !== id
+    data.elementStore?.activeElementId !== id
       ? (data.elementStore.activeElementId = id)
       : (data.elementStore.activeElementId = undefined);
   };
 
   let style =
-    data.elementStore.activeElementId === id
+    data.elementStore?.activeElementId === id
       ? { outline: "3px solid #555" }
       : {};
 

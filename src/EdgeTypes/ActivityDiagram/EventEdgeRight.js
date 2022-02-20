@@ -21,13 +21,13 @@ const EventEdgeRight = observer(
       targetY;
 
     const setSelected = () => {
-      data.elementStore.activeElementId !== id
+      data.elementStore?.activeElementId !== id
         ? (data.elementStore.activeElementId = id)
         : (data.elementStore.activeElementId = undefined);
     };
 
     let style =
-      data.elementStore.activeElementId === id
+      data.elementStore?.activeElementId === id
         ? { stroke: "#000", strokeWidth: "2" }
         : {};
 

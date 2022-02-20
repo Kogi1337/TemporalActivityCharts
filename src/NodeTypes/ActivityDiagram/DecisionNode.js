@@ -7,13 +7,13 @@ const DecisionNode = observer(({ id, data, isConnectable }) => {
   const path = "M 55 0 L 110 55 L 55 110 L 0 55 L 55 0";
 
   const setSelected = () => {
-    data.elementStore.activeElementId !== id
+    data.elementStore?.activeElementId !== id
       ? (data.elementStore.activeElementId = id)
       : (data.elementStore.activeElementId = undefined);
   };
 
   let style =
-    data.elementStore.activeElementId === id
+    data.elementStore?.activeElementId === id
       ? { stroke: "#000", strokeWidth: "2" }
       : {};
 

@@ -28,6 +28,13 @@ export default class Headbar extends React.Component {
           const [x = 0, y = 0] = flow.position;
           this.props.elementStore.elements = flow.elements || [];
           this.props.elementStore.transform({ x, y, zoom: flow.zoom || 0 });
+
+          this.props.elementStore.elements.forEach((element) => {
+            if (!element?.data?.elementStore)
+              element.data.elementStore = this.props.elementStore;
+          });
+
+          this.props.elementStore.transformElementsToTCN();
         }
       };
       reader.readAsText(file);
@@ -121,9 +128,6 @@ export default class Headbar extends React.Component {
     let menu = (
       <Menu>
         <Menu.Item key="1">
-          <ExportOutlined /> Export to temporal constraint network
-        </Menu.Item>
-        <Menu.Item key="2">
           <Upload
             accept=".json"
             customRequest={this.dummyRequest}
@@ -133,10 +137,10 @@ export default class Headbar extends React.Component {
             <UploadOutlined /> Import from file
           </Upload>
         </Menu.Item>
-        <Menu.Item key="3" onClick={this.onClickDownloadForSave}>
+        <Menu.Item key="2" onClick={this.onClickDownloadForSave}>
           <DownloadOutlined /> Save for import
         </Menu.Item>
-        <Menu.Item key="4" onClick={this.convertToJson}>
+        <Menu.Item key="3" onClick={this.convertToJson}>
           <DownloadOutlined /> Export with metadata
         </Menu.Item>
       </Menu>

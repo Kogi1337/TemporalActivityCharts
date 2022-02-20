@@ -5,13 +5,13 @@ import { observer } from "mobx-react";
 
 const EventNode = observer(({ id, data, isConnectable }) => {
   const setSelected = () => {
-    data.elementStore.activeElementId !== id
+    data.elementStore?.activeElementId !== id
       ? (data.elementStore.activeElementId = id)
       : (data.elementStore.activeElementId = undefined);
   };
 
   let style =
-    data.elementStore.activeElementId === id
+    data.elementStore?.activeElementId === id
       ? { outline: "2px solid #000" }
       : {};
 

@@ -4,13 +4,13 @@ import { Handle } from "react-flow-renderer";
 
 const InitialNode = observer(({ id, data, isConnectable }) => {
   const setSelected = () => {
-    data.elementStore.activeElementId !== id
+    data.elementStore?.activeElementId !== id
       ? (data.elementStore.activeElementId = id)
       : (data.elementStore.activeElementId = undefined);
   };
 
   let style =
-    data.elementStore.activeElementId === id
+    data.elementStore?.activeElementId === id
       ? {
           outline: "3px solid #555",
         }
