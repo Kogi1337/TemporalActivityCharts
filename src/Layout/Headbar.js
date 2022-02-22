@@ -6,7 +6,9 @@ import {
   UploadOutlined,
   SettingOutlined,
   DownOutlined,
+  ExportOutlined,
 } from "@ant-design/icons";
+import { create } from "xmlbuilder2";
 const { Header } = Layout;
 
 export default class Headbar extends React.Component {
@@ -123,6 +125,232 @@ export default class Headbar extends React.Component {
     }
   };
 
+  addKeyToXmlElement = (root, id, forWho, desc, defaultValue) => {
+    root
+      .root()
+      .ele("key", { id: id, for: forWho })
+      .ele("desc")
+      .txt(desc)
+      .up()
+      .ele("default")
+      .txt(defaultValue);
+  };
+
+  addKeyElementsToXml(root) {
+    let elements = this.props.elementStore.elements;
+    let nContingent = elements.filter(
+      (x) => x.type === "activityNode" && x.data?.durationType === "contingent"
+    ).length;
+
+    //Add key elements
+    this.addKeyToXmlElement(
+      root,
+      "nContingent",
+      "graph",
+      "Number of contingents in the graph",
+      nContingent
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "nObservedProposition",
+      "graph",
+      "Number of observed propositions in the graph",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "NetworkType",
+      "graph",
+      "Network Type",
+      "CSTNU"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "nEdges",
+      "graph",
+      "Number of edges in the graph",
+      0
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "nVertices",
+      "graph",
+      "Number of vertices in the graph",
+      0
+    );
+
+    this.addKeyToXmlElement(root, "Name", "graph", "Graph Name", "");
+
+    this.addKeyToXmlElement(
+      root,
+      "Obs",
+      "node",
+      "Proposition Observed. Value specification: [a-zA-F]",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "x",
+      "node",
+      "The x coordinate for the visualization. A positive value.",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "Label",
+      "node",
+      "Label. Format: [¬[a-zA-F]|[a-zA-F]]+|⊡",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "y",
+      "node",
+      "The y coordinate for the visualization. A positive value.",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "Potential",
+      "node",
+      "Labeled Potential Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "Type",
+      "node",
+      "Type: Possible values: contingent|requirement|derived|internal.",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "Value",
+      "node",
+      "Value for STN edge. Format: 'integer'",
+      "0"
+    );
+
+    this.addKeyToXmlElement(
+      root,
+      "LabeledValue",
+      "node",
+      "Case Value. Format: 'LC(NodeName):integer' or 'UC(NodeName):integer'",
+      "0"
+    );
+  }
+
+  convertTcnToXml = async () => {
+    let tcnElements = this.props.elementStore.tcnElements;
+    let mainpart = `<?xml version="1.0" encoding="UTF-8"?>
+    <graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml"></graphml>`;
+    const root = create(mainpart);
+
+    this.addKeyElementsToXml(root);
+
+    let elements = this.props.elementStore.elements;
+
+    let nContingent = elements.filter(
+      (x) => x.type === "activityNode" && x.data?.durationType === "contingent"
+    ).length;
+
+    let ele = root
+      .root()
+      .ele("graph", { edgedefault: "directed" })
+      .ele("data", { key: "nContingent" })
+      .txt(nContingent)
+      .up()
+      .ele("data", { key: "NetworkType" })
+      .txt("STNU")
+      .up()
+      .ele("data", { key: "nEdges" })
+      .txt(" ")
+      .up()
+      .ele("data", { key: "nVertices" })
+      .txt(" ")
+      .up()
+      .ele("data", { key: "Name" })
+      .txt(" ")
+      .up();
+
+    let edgeCounter = 0;
+    tcnElements.forEach((element) => {
+      //So we generate a node element in xml
+      if (element.type === "node") {
+        ele
+          .ele("node", { id: element.data?.label })
+          .ele("data", { key: "x" })
+          .txt(element.position?.x)
+          .up()
+          .ele("data", { key: "y" })
+          .txt(element.position?.y)
+          .up();
+      } else if (element.type === "nodeEdgeControl") {
+        let source = tcnElements.find((x) => x.id === element.source);
+        let target = tcnElements.find((x) => x.id === element.target);
+        ele
+          .ele("edge", {
+            id: "e" + edgeCounter,
+            source: source.data?.label,
+            target: target.data?.label,
+          })
+          .ele("data", { key: "Type" })
+          .txt("requirement")
+          .up()
+          .ele("data", { key: "Value" })
+          .txt(element.data?.label || 0)
+          .up();
+        edgeCounter++;
+      } else if (
+        element.type === "nodeEdgeTop" ||
+        element.type === "nodeEdgeBottom"
+      ) {
+        let source = tcnElements.find((x) => x.id === element.source);
+        let target = tcnElements.find((x) => x.id === element.target);
+        ele
+          .ele("edge", {
+            id: "e" + edgeCounter,
+            source: source.data?.label,
+            target: target.data?.label,
+          })
+          .ele("data", { key: "Type" })
+          .txt("contingent")
+          .up()
+          .ele("data", { key: "Value" })
+          .txt(element.data?.label || " ")
+          .up();
+        edgeCounter++;
+      }
+    });
+
+    // convert the XML tree to string
+    const xmlString = root.end({ prettyPrint: true });
+    console.log(xmlString);
+
+    try {
+      const blob = new Blob([xmlString], { type: "application/xml" });
+      const href = await URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = href;
+      link.download = "tcn_" + dayjs().format("DD.MM.YYYY") + ".xml";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   render() {
     let menu = (
       <Menu>
@@ -141,6 +369,9 @@ export default class Headbar extends React.Component {
         </Menu.Item>
         <Menu.Item key="3" onClick={this.convertToJson}>
           <DownloadOutlined /> Export with metadata
+        </Menu.Item>
+        <Menu.Item key="4" onClick={this.convertTcnToXml}>
+          <ExportOutlined /> Download TCN as XML-File
         </Menu.Item>
       </Menu>
     );

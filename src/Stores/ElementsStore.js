@@ -66,8 +66,12 @@ export default class ElementStore {
           targetHandle: "topNodeTcn" + secondActivityNodeId,
           data: {
             label:
-              element.data?.durationMax !== undefined
-                ? element.data.durationMax
+              element.data?.durationType !== "contingent"
+                ? element.data?.durationMax !== undefined
+                  ? element.data.durationMax
+                  : undefined
+                : element.data?.durationMin !== undefined
+                ? element.data.durationMin
                 : undefined,
           },
         };
@@ -81,33 +85,19 @@ export default class ElementStore {
           targetHandle: "bottomNodeTcn" + firstActivityNodeId,
           data: {
             label:
-              element.data?.durationMin !== undefined
-                ? element.data?.durationMin * -1
+              element.data?.durationType !== "contingent"
+                ? element.data?.durationMin !== undefined
+                  ? element.data?.durationMin * -1
+                  : undefined
+                : element.data?.durationMax !== undefined
+                ? element.data?.durationMax * -1
                 : undefined,
           },
         };
         this.tcnElements = addEdge(edgeDurationMin, this.tcnElements);
       } else if (element.type === "initialNode") {
-        let firstNodeId = "first" + element.id;
-        let firstNodePosition = { ...element.position };
-        firstNodePosition.x -= 200;
-
-        const firstNode = {
-          id: firstNodeId,
-          type: "node",
-          position: firstNodePosition,
-          data: {
-            elementStore: this,
-            label: "Z",
-            sourceActivity: element.id,
-          },
-        };
-
-        this.tcnElements = this.tcnElements.concat(firstNode);
-        let secondNodeId = "second" + element.id;
-
-        const secondNode = {
-          id: secondNodeId,
+        const initialNode = {
+          id: element.id,
           type: "node",
           position: element.position,
           data: {
@@ -117,31 +107,7 @@ export default class ElementStore {
           },
         };
 
-        this.tcnElements = this.tcnElements.concat(secondNode);
-
-        let edgeTop = {
-          type: "nodeEdgeTop",
-          source: secondNodeId,
-          sourceHandle: "topNodeTcn" + secondNodeId,
-          target: firstNodeId,
-          targetHandle: "topNodeTcn" + firstNodeId,
-          data: {
-            label: 0,
-          },
-        };
-        this.tcnElements = addEdge(edgeTop, this.tcnElements);
-
-        let edgeBottom = {
-          type: "nodeEdgeBottom",
-          source: firstNodeId,
-          sourceHandle: "bottomNodeTcn" + firstNodeId,
-          target: secondNodeId,
-          targetHandle: "bottomNodeTcn" + secondNodeId,
-          data: {
-            label: 0,
-          },
-        };
-        this.tcnElements = addEdge(edgeBottom, this.tcnElements);
+        this.tcnElements = this.tcnElements.concat(initialNode);
       } else if (element.type === "finalNode") {
         const finalNode = {
           id: element.id,
@@ -263,7 +229,8 @@ export default class ElementStore {
           source.type === "forkNode" ||
           source.type === "joinNode" ||
           source.type === "decisionNode" ||
-          source.type === "mergeNode"
+          source.type === "mergeNode" ||
+          source.type === "initialNode"
         ) {
           let data = { label: source.data?.label };
           mergePredicates.push(data);
