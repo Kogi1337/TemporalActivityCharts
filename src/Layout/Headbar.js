@@ -138,8 +138,17 @@ export default class Headbar extends React.Component {
 
   addKeyElementsToXml(root) {
     let elements = this.props.elementStore.elements;
+    let tcnElements = this.props.elementStore.tcnElements;
+
     let nContingent = elements.filter(
       (x) => x.type === "activityNode" && x.data?.durationType === "contingent"
+    ).length;
+
+    let nEdges = tcnElements.filter(
+      (x) =>
+        x.type === "nodeEdgeTop" ||
+        x.type === "nodeEdgeBottom" ||
+        x.type === "nodeEdgeControl"
     ).length;
 
     //Add key elements
@@ -172,7 +181,7 @@ export default class Headbar extends React.Component {
       "nEdges",
       "graph",
       "Number of edges in the graph",
-      0
+      nEdges
     );
 
     this.addKeyToXmlElement(
@@ -264,6 +273,13 @@ export default class Headbar extends React.Component {
       (x) => x.type === "activityNode" && x.data?.durationType === "contingent"
     ).length;
 
+    let nEdges = tcnElements.filter(
+      (x) =>
+        x.type === "nodeEdgeTop" ||
+        x.type === "nodeEdgeBottom" ||
+        x.type === "nodeEdgeControl"
+    ).length;
+
     let ele = root
       .root()
       .ele("graph", { edgedefault: "directed" })
@@ -274,7 +290,7 @@ export default class Headbar extends React.Component {
       .txt("STNU")
       .up()
       .ele("data", { key: "nEdges" })
-      .txt(" ")
+      .txt(nEdges)
       .up()
       .ele("data", { key: "nVertices" })
       .txt(" ")
@@ -335,7 +351,6 @@ export default class Headbar extends React.Component {
 
     // convert the XML tree to string
     const xmlString = root.end({ prettyPrint: true });
-    console.log(xmlString);
 
     try {
       const blob = new Blob([xmlString], { type: "application/xml" });
