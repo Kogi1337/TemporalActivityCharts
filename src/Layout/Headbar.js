@@ -151,6 +151,8 @@ export default class Headbar extends React.Component {
         x.type === "nodeEdgeControl"
     ).length;
 
+    let nVerticles = tcnElements.filter((x) => x.type === "node").length;
+
     //Add key elements
     this.addKeyToXmlElement(
       root,
@@ -189,10 +191,10 @@ export default class Headbar extends React.Component {
       "nVertices",
       "graph",
       "Number of vertices in the graph",
-      0
+      nVerticles
     );
 
-    this.addKeyToXmlElement(root, "Name", "graph", "Graph Name", "");
+    this.addKeyToXmlElement(root, "Name", "graph", "Graph Name", "ex1_stnu");
 
     this.addKeyToXmlElement(
       root,
@@ -280,6 +282,8 @@ export default class Headbar extends React.Component {
         x.type === "nodeEdgeControl"
     ).length;
 
+    let nVerticles = tcnElements.filter((x) => x.type === "node").length;
+
     let ele = root
       .root()
       .ele("graph", { edgedefault: "directed" })
@@ -293,10 +297,10 @@ export default class Headbar extends React.Component {
       .txt(nEdges)
       .up()
       .ele("data", { key: "nVertices" })
-      .txt(" ")
+      .txt(nVerticles)
       .up()
       .ele("data", { key: "Name" })
-      .txt(" ")
+      .txt("ex1_stnu")
       .up();
 
     let edgeCounter = 0;

@@ -59,7 +59,7 @@ export default class Sidebar extends React.Component {
                 <img src={finalNode} alt="finalNode_image" height={75} />
               </Menu.Item>
 
-              <Menu.Item
+              {/* <Menu.Item
                 style={{ height: "150px" }}
                 key="decisionNode"
                 draggable="true"
@@ -77,7 +77,7 @@ export default class Sidebar extends React.Component {
               >
                 <div>Merge Node</div>
                 <img src={mergeNode} alt="mergeNode_image" height={75} />
-              </Menu.Item>
+              </Menu.Item> */}
 
               <Menu.Item
                 style={{ height: "150px" }}
