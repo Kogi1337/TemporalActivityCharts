@@ -1,5 +1,15 @@
 import React from "react";
-import { Dropdown, Menu, Upload, Button, message, Layout } from "antd";
+import {
+  Dropdown,
+  Menu,
+  Upload,
+  Button,
+  message,
+  Layout,
+  Modal,
+  Input,
+  Form,
+} from "antd";
 import dayjs from "dayjs";
 import {
   DownloadOutlined,
@@ -12,6 +22,10 @@ import { create } from "xmlbuilder2";
 const { Header } = Layout;
 
 export default class Headbar extends React.Component {
+  state = {
+    showTcnExportModal: false,
+  };
+
   dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess("ok");
@@ -137,29 +151,13 @@ export default class Headbar extends React.Component {
   };
 
   addKeyElementsToXml(root) {
-    let elements = this.props.elementStore.elements;
-    let tcnElements = this.props.elementStore.tcnElements;
-
-    let nContingent = elements.filter(
-      (x) => x.type === "activityNode" && x.data?.durationType === "contingent"
-    ).length;
-
-    let nEdges = tcnElements.filter(
-      (x) =>
-        x.type === "nodeEdgeTop" ||
-        x.type === "nodeEdgeBottom" ||
-        x.type === "nodeEdgeControl"
-    ).length;
-
-    let nVerticles = tcnElements.filter((x) => x.type === "node").length;
-
     //Add key elements
     this.addKeyToXmlElement(
       root,
       "nContingent",
       "graph",
       "Number of contingents in the graph",
-      nContingent
+      "0"
     );
 
     this.addKeyToXmlElement(
@@ -183,7 +181,7 @@ export default class Headbar extends React.Component {
       "nEdges",
       "graph",
       "Number of edges in the graph",
-      nEdges
+      "0"
     );
 
     this.addKeyToXmlElement(
@@ -191,17 +189,17 @@ export default class Headbar extends React.Component {
       "nVertices",
       "graph",
       "Number of vertices in the graph",
-      nVerticles
+      "0"
     );
 
-    this.addKeyToXmlElement(root, "Name", "graph", "Graph Name", "ex1_stnu");
+    this.addKeyToXmlElement(root, "Name", "graph", "Graph Name", "");
 
     this.addKeyToXmlElement(
       root,
       "Obs",
       "node",
       "Proposition Observed. Value specification: [a-zA-F]",
-      "0"
+      ""
     );
 
     this.addKeyToXmlElement(
@@ -233,35 +231,35 @@ export default class Headbar extends React.Component {
       "Potential",
       "node",
       "Labeled Potential Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}",
-      "0"
+      ""
     );
 
     this.addKeyToXmlElement(
       root,
       "Type",
-      "node",
+      "edge",
       "Type: Possible values: contingent|requirement|derived|internal.",
-      "0"
+      "requirement"
     );
 
     this.addKeyToXmlElement(
       root,
       "Value",
-      "node",
+      "edge",
       "Value for STN edge. Format: 'integer'",
-      "0"
+      ""
     );
 
     this.addKeyToXmlElement(
       root,
       "LabeledValue",
-      "node",
+      "edge",
       "Case Value. Format: 'LC(NodeName):integer' or 'UC(NodeName):integer'",
-      "0"
+      ""
     );
   }
 
-  convertTcnToXml = async () => {
+  convertTcnToXml = async (fileName, fileExtension) => {
     let tcnElements = this.props.elementStore.tcnElements;
     let mainpart = `<?xml version="1.0" encoding="UTF-8"?>
     <graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml"></graphml>`;
@@ -308,7 +306,7 @@ export default class Headbar extends React.Component {
       //So we generate a node element in xml
       if (element.type === "node") {
         ele
-          .ele("node", { id: element.data?.label })
+          .ele("node", { id: element.data?.label?.toString().trim() })
           .ele("data", { key: "x" })
           .txt(element.position?.x)
           .up()
@@ -321,8 +319,8 @@ export default class Headbar extends React.Component {
         ele
           .ele("edge", {
             id: "e" + edgeCounter,
-            source: source.data?.label,
-            target: target.data?.label,
+            source: source.data?.label?.toString().trim(),
+            target: target.data?.label?.toString().trim(),
           })
           .ele("data", { key: "Type" })
           .txt("requirement")
@@ -361,13 +359,17 @@ export default class Headbar extends React.Component {
       const href = await URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = href;
-      link.download = "tcn_" + dayjs().format("DD.MM.YYYY") + ".xml";
+      link.download = fileName + "." + (fileExtension || "xml");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  onFinish = (values) => {
+    this.convertTcnToXml(values.fileName, values.fileExtension);
   };
 
   render() {
@@ -389,25 +391,70 @@ export default class Headbar extends React.Component {
         <Menu.Item key="3" onClick={this.convertToJson}>
           <DownloadOutlined /> Export with metadata
         </Menu.Item>
-        <Menu.Item key="4" onClick={this.convertTcnToXml}>
+        <Menu.Item
+          key="4"
+          onClick={() => this.setState({ showTcnExportModal: true })}
+        >
           <ExportOutlined /> Download TCN as XML-File
         </Menu.Item>
       </Menu>
     );
 
+    let defaultFileName = "tcn_" + dayjs().format("DD.MM.YYYY");
+
     return (
-      <Header class="myHeader">
-        <div className="headbarTitle">
-          <h1>Temporal activity charts</h1>
-        </div>
-        <div className="optionsDropdown">
-          <Dropdown overlay={menu}>
-            <Button icon={<SettingOutlined />}>
-              Options <DownOutlined />
-            </Button>
-          </Dropdown>
-        </div>
-      </Header>
+      <>
+        <Header class="myHeader">
+          <div className="headbarTitle">
+            <h1>Temporal activity charts</h1>
+          </div>
+          <div className="optionsDropdown">
+            <Dropdown overlay={menu}>
+              <Button icon={<SettingOutlined />}>
+                Options <DownOutlined />
+              </Button>
+            </Dropdown>
+          </div>
+        </Header>
+
+        <Modal
+          title="TCN-Download"
+          visible={this.state.showTcnExportModal}
+          onCancel={() => this.setState({ showTcnExportModal: false })}
+          cancelText={"Close"}
+          okText={
+            <>
+              <DownloadOutlined /> Download
+            </>
+          }
+          okButtonProps={{
+            htmlType: "submit",
+            form: "tcnExportForm",
+          }}
+          destroyOnClose
+        >
+          <Form onFinish={this.onFinish} id="tcnExportForm" layout="vertical">
+            <Form.Item
+              name="fileName"
+              label="File Name"
+              initialValue={defaultFileName}
+              rules={[
+                { required: "true", message: "Please provide a file name!" },
+              ]}
+            >
+              <Input placeholder="File Extension" />
+            </Form.Item>
+
+            <Form.Item
+              name="fileExtension"
+              label="Chose a file extension"
+              initialValue="xml"
+            >
+              <Input placeholder="File Extension" />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </>
     );
   }
 }
