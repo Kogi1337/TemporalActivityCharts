@@ -2,7 +2,7 @@
   "name": "TemporalActivityCharts",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Kogi1337.github.io/TemporalActivityCharts",
+  "homepage": "https://git-isys.aau.at/jolubas/temporal-process-designer",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
